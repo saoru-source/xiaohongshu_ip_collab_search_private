@@ -46,6 +46,10 @@
   }
   .quick-tags button:hover{background:var(--chip); color:var(--accent-dark);}
 
+  .toolbar-extra{padding:0 16px;}
+
+  .combo-hint{max-width:900px; margin:8px auto 0; font-size:11px; color:var(--sub);}
+
   .builder{
     max-width:900px; margin:14px auto 0; background:var(--card); border:1px solid var(--border);
     border-radius:12px; padding:14px 16px;
@@ -131,76 +135,6 @@
   }
   .toggle-more-btn:hover{background:var(--chip-hover);}
 
-  .combo-hint{max-width:900px; margin:8px auto 0; font-size:11px; color:var(--sub);}
-
-  .combo-bar{
-    max-width:900px; margin:14px auto 0; display:none;
-    background:var(--card); border:2px solid var(--accent); border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,.06); padding:14px 16px;
-  }
-  .combo-bar.show{display:block;}
-  .combo-inner{}
-  .combo-top{display:flex; align-items:center; gap:8px; margin-bottom:8px;}
-  .combo-top .combo-label{font-size:14px; font-weight:700; color:var(--accent-dark);}
-  .combo-list{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
-  .combo-pill{
-    display:flex; align-items:center; gap:4px; background:var(--chip); border:1px solid var(--border);
-    border-radius:999px; padding:4px 6px 4px 10px; font-size:12px; font-weight:600;
-  }
-  .combo-pill button{
-    border:none; background:none; color:var(--sub); cursor:pointer; font-size:13px; line-height:1;
-    padding:0 2px;
-  }
-  .combo-actions{display:flex; flex-wrap:wrap; align-items:center; gap:8px;}
-  .combo-preview{
-    font-size:14px; font-weight:700; background:var(--chip); border-radius:8px; padding:8px 12px; flex:1; min-width:140px;
-  }
-  .combo-actions button{border:none; border-radius:8px; padding:9px 16px; font-size:13px; font-weight:700; cursor:pointer;}
-  #comboSearchBtn{background:var(--accent); color:#fff;}
-  #comboSearchBtn:hover{background:var(--accent-dark);}
-  #comboClearBtn{background:#fff; border:1px solid var(--border); color:var(--sub);}
-  #comboClearBtn:hover{background:var(--chip); color:var(--accent-dark);}
-
-  .lock-bar{
-    max-width:900px; margin:14px auto 0; text-align:right;
-  }
-  .lock-bar button{
-    font-size:11px; color:var(--sub); background:#fff; border:1px solid var(--border);
-    border-radius:999px; padding:5px 12px; cursor:pointer;
-  }
-  .lock-bar button:hover{background:var(--chip); color:var(--accent-dark);}
-
-  .add-panel{
-    background:var(--card); border:1px solid var(--border); border-radius:12px;
-    margin-bottom:16px; overflow:hidden;
-  }
-  .add-panel[hidden]{display:none;}
-  .add-panel summary{
-    cursor:pointer; padding:12px 16px; font-size:13px; font-weight:700; color:var(--accent-dark);
-    list-style:none;
-  }
-  .add-panel summary::-webkit-details-marker{display:none;}
-  .add-panel .add-body{padding:0 16px 16px;}
-  .add-panel .hint{font-size:11px; color:var(--sub); margin:0 0 10px;}
-  .add-grid{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px;}
-  .add-grid select, .add-grid input[type=text]{
-    padding:8px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px; background:#fff;
-  }
-  .add-grid input[type=text]{flex:1; min-width:120px;}
-  .add-actions{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
-  .add-actions button{
-    border:none; border-radius:8px; padding:9px 16px; font-size:13px; font-weight:700; cursor:pointer;
-  }
-  #addKeywordBtn{background:var(--accent); color:#fff;}
-  #addKeywordBtn:hover{background:var(--accent-dark);}
-  .io-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--border);}
-  .io-row button, .io-row label{
-    background:#fff; border:1px solid var(--border); color:var(--sub); border-radius:8px;
-    padding:7px 12px; font-size:12px; cursor:pointer;
-  }
-  .io-row button:hover, .io-row label:hover{background:var(--chip); color:var(--accent-dark);}
-  #importFile{display:none;}
-
   .toast{
     position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
     background:#26232a; color:#fff; padding:9px 18px; border-radius:999px; font-size:13px;
@@ -232,6 +166,9 @@
     <button data-q="限定">限定</button>
     <button data-q="">すべて表示</button>
   </div>
+</div>
+
+<div class="toolbar-extra">
   <p class="combo-hint">💡 下のカテゴリ一覧の各キーワードにある「➕」を押すと・すぐ下の🧩複合キーワード欄に追加されます</p>
 
   <div class="builder">
@@ -755,7 +692,18 @@ function searchUrl(keyword){
   const kw = keyword.split(/[\/／、,・]/)[0].trim(); // 最初の中国語表記だけ使う
   return "https://www.xiaohongshu.com/search_result?keyword=" + encodeURIComponent(kw) + "&source=web_search_result_notes";
 }
-function openSearch(keyword){ window.open(searchUrl(keyword), "_blank"); }
+function openSearch(keyword){
+  const url = searchUrl(keyword);
+  // window.open("_blank") is unreliable on mobile browsers (esp. in-app webviews) —
+  // a synthetic <a> click is treated as a trusted navigation more consistently.
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
 function copyText(text, chipEl){
   navigator.clipboard.writeText(text).then(()=>{
