@@ -3,176 +3,226 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>小紅書 IPコラボ検索キーワード集（管理用・自分専用）</title>
+<title>小紅書 IPコラボ検索キーワード集（プレビュー版）</title>
 <style>
-  :root{
-    --bg:#fff5f6; --card:#ffffff; --accent:#ff2442; --accent-dark:#d81b3f;
-    --text:#26232a; --sub:#8a8a8a; --border:#f0d9dc; --chip:#fff0f1; --chip-hover:#ffe1e4;
-    --header-h:64px; --sticky-h:170px;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; font-family:"Hiragino Sans","Yu Gothic","PingFang SC","Microsoft YaHei",sans-serif;
-    background:var(--bg); color:var(--text);
-  }
-  header{
-    position:sticky; top:0; z-index:20; background:linear-gradient(135deg,#ff2442,#ff5470);
-    color:#fff; padding:14px 20px; box-shadow:0 2px 10px rgba(0,0,0,.12);
-  }
-  header h1{margin:0; font-size:18px; font-weight:700; letter-spacing:.02em;}
-  header p{margin:2px 0 0; font-size:12px; opacity:.9;}
-  .private-badge{
-    display:inline-block; font-size:10px; font-weight:700; background:rgba(255,255,255,.25);
-    padding:2px 8px; border-radius:999px; margin-left:8px; vertical-align:middle;
-  }
+:root{
+  --bg:#fff5f6; --card:#ffffff; --accent:#ff2442; --accent-dark:#d81b3f;
+  --text:#26232a; --sub:#8a8a8a; --border:#f0d9dc; --chip:#fff0f1; --chip-hover:#ffe1e4;
+  --header-h:64px; --sticky-h:170px;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; font-family:"Hiragino Sans","Yu Gothic","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--text);
+}
+header{
+  position:sticky; top:0; z-index:20; background:linear-gradient(135deg,#ff2442,#ff5470);
+  color:#fff; padding:14px 20px; box-shadow:0 2px 10px rgba(0,0,0,.12);
+}
+header h1{margin:0; font-size:17px; font-weight:700; letter-spacing:.02em;}
+header p{margin:2px 0 0; font-size:12px; opacity:.9;}
+.private-badge{
+  display:inline-block; font-size:10px; font-weight:700; background:rgba(255,255,255,.28);
+  padding:2px 8px; border-radius:999px; margin-left:6px; vertical-align:middle;
+}
+.preview-badge{
+  display:inline-block; font-size:10px; font-weight:700; background:#26232a;
+  color:#ffe1a8; padding:2px 8px; border-radius:999px; margin-left:6px; vertical-align:middle;
+}
+.search-bar{
+  position:sticky; top:var(--header-h); z-index:19; background:#fff; padding:12px 16px;
+  border-bottom:1px solid var(--border); box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+.search-row{display:flex; gap:6px; max-width:900px; margin:0 auto;}
+#filterInput{
+  flex:1; min-width:0; padding:11px 12px; font-size:15px; border:2px solid var(--border);
+  border-radius:10px; outline:none; transition:border-color .15s;
+}
+#filterInput:focus{border-color:var(--accent);}
+.icon-btn{
+  flex:0 0 auto; border:none; border-radius:10px; font-size:13px; font-weight:700;
+  padding:0 11px; cursor:pointer; white-space:nowrap;
+}
+.icon-btn.search{background:var(--accent); color:#fff;}
+.icon-btn.search:active{background:var(--accent-dark);}
+.icon-btn.reset{background:#fff; color:var(--sub); border:1px solid var(--border);}
+.icon-btn.reset:active{background:var(--chip-hover); color:var(--accent-dark);}
+.icon-btn.copy{background:#fff; color:var(--accent-dark); border:1px solid #f6b8bf;}
+.icon-btn.copy:active{background:var(--chip); color:var(--accent-dark);}
+.count-badge{
+  font-size:11px; color:var(--sub); margin:6px auto 0; max-width:900px; padding:0 2px;
+}
+.variant-toggle{
+  display:flex; align-items:center; gap:6px; max-width:900px; margin:6px auto 0; padding:0 2px;
+}
+.variant-label{font-size:11px; color:var(--sub);}
+.variant-btn{
+  font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px;
+  border:1px solid var(--border); background:#fff; color:var(--sub); cursor:pointer;
+}
+.variant-btn.active{background:var(--accent); color:#fff; border-color:var(--accent);}
+.active-filter-chip{
+  display:none; align-items:center; gap:6px; max-width:900px; margin:8px auto 0;
+  background:#ffe9c2; border:1px solid #f0b95a; color:#7a5200; font-size:12px; font-weight:700;
+  padding:6px 10px; border-radius:999px; width:fit-content;
+}
+.active-filter-chip.show{display:inline-flex;}
+.active-filter-chip button{border:none; background:none; color:#7a5200; font-weight:700; cursor:pointer; font-size:13px; line-height:1;}
+.quick-tags{max-width:900px; margin:8px auto 0; display:flex; flex-wrap:wrap; gap:6px;}
+.quick-tags button{
+  font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border);
+  background:#fff; color:var(--sub); cursor:pointer;
+}
+.quick-tags button:hover{background:var(--chip); color:var(--accent-dark);}
+.toolbar-extra{padding:0 16px;}
+.combo-hint{max-width:900px; margin:8px auto 0; font-size:11px; color:var(--sub);}
+.builder{
+  max-width:900px; margin:14px auto 0; background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:14px 16px;
+}
+.builder-title{font-size:14px; font-weight:700; color:var(--accent-dark); margin:0 0 8px;}
+.builder-row{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+.builder select, .builder input[type=text]{
+  padding:8px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px; background:#fff;
+}
+.builder .preview{
+  font-size:14px; font-weight:700; color:var(--text); background:var(--chip);
+  padding:8px 12px; border-radius:8px; flex:1; min-width:160px;
+}
+.builder button.go{
+  background:var(--accent); color:#fff; border:none; padding:9px 16px; border-radius:8px;
+  font-size:13px; font-weight:700; cursor:pointer;
+}
+.builder button.go:hover{background:var(--accent-dark);}
+.combo-bar{max-width:900px; margin:0 auto; display:none;}
+.combo-bar.show{display:block;}
+.combo-inner{
+  margin-top:12px; background:#fffaf0; border:1px solid #f0b95a; border-radius:12px; padding:12px 14px;
+}
+.combo-label{font-size:12px; font-weight:700; color:#7a5200;}
+.combo-list{display:flex; flex-wrap:wrap; gap:6px; margin:8px 0;}
+.combo-pill{
+  display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #f0b95a;
+  border-radius:999px; padding:4px 6px 4px 10px; font-size:12px; font-weight:700; color:#7a5200;
+}
+.combo-pill button{border:none; background:none; color:#a35a00; cursor:pointer; font-size:13px;}
+.combo-actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.combo-preview{font-size:13px; font-weight:700; flex:1; min-width:120px;}
+.combo-actions button{
+  border:none; border-radius:999px; padding:8px 14px; font-size:12px; font-weight:700; cursor:pointer;
+}
+#comboSearchBtn{background:var(--accent); color:#fff;}
+#comboClearBtn{background:#fff; border:1px solid var(--border) !important; color:var(--sub);}
+main{max-width:900px; margin:0 auto; padding:16px 16px 60px;}
 
-  .search-bar{
-    position:sticky; top:var(--header-h); z-index:19; background:#fff; padding:12px 16px;
-    border-bottom:1px solid var(--border); box-shadow:0 2px 6px rgba(0,0,0,.04);
-  }
-  .search-row{display:flex; gap:8px; max-width:900px; margin:0 auto;}
-  #filterInput{
-    flex:1; padding:11px 14px; font-size:15px; border:2px solid var(--border);
-    border-radius:10px; outline:none; transition:border-color .15s;
-  }
-  #filterInput:focus{border-color:var(--accent);}
-  .count-badge{
-    font-size:12px; color:var(--sub); white-space:nowrap; align-self:center; padding-left:4px;
-  }
-  .quick-tags{max-width:900px; margin:8px auto 0; display:flex; flex-wrap:wrap; gap:6px;}
-  .quick-tags button{
-    font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border);
-    background:#fff; color:var(--sub); cursor:pointer;
-  }
-  .quick-tags button:hover{background:var(--chip); color:var(--accent-dark);}
+/* ---- 階層カテゴリナビ ---- */
+.nav-box{
+  margin-bottom:14px; padding:14px 16px; background:#fff;
+  border-radius:12px; border:1px solid var(--border);
+}
+.nav-label{font-size:14px; font-weight:700; color:var(--accent-dark); margin:0 0 10px;}
+.group-list{display:flex; flex-direction:column; gap:8px;}
+.group-btn{
+  display:flex; align-items:center; justify-content:space-between; width:100%;
+  background:var(--chip); border:1px solid var(--border); border-radius:10px;
+  padding:11px 14px; font-size:14px; font-weight:700; color:var(--text); cursor:pointer;
+}
+.group-btn:active{background:var(--chip-hover);}
+.group-btn .arrow{transition:transform .15s; color:var(--accent-dark); font-size:12px;}
+.group-btn.open .arrow{transform:rotate(90deg);}
+.subcat-list{
+  display:none; flex-wrap:wrap; gap:6px; padding:10px 4px 2px;
+}
+.subcat-list.open{display:flex;}
+.subcat-list button{
+  font-size:12px; padding:6px 12px; border-radius:999px; border:1px solid var(--border);
+  background:#fff; color:var(--accent-dark); cursor:pointer; font-weight:700;
+}
+.subcat-list button.active{background:var(--accent); color:#fff; border-color:var(--accent);}
 
-  .toolbar-extra{padding:0 16px;}
-
-  .combo-hint{max-width:900px; margin:8px auto 0; font-size:11px; color:var(--sub);}
-
-  .builder{
-    max-width:900px; margin:14px auto 0; background:var(--card); border:1px solid var(--border);
-    border-radius:12px; padding:14px 16px;
-  }
-  .builder-title{font-size:14px; font-weight:700; color:var(--accent-dark); margin:0 0 8px;}
-  .builder-row{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
-  .builder select, .builder input[type=text]{
-    padding:8px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px; background:#fff;
-  }
-  .builder .preview{
-    font-size:14px; font-weight:700; color:var(--text); background:var(--chip);
-    padding:8px 12px; border-radius:8px; flex:1; min-width:160px;
-  }
-  .builder button.go{
-    background:var(--accent); color:#fff; border:none; padding:9px 16px; border-radius:8px;
-    font-size:13px; font-weight:700; cursor:pointer;
-  }
-  .builder button.go:hover{background:var(--accent-dark);}
-
-  main{max-width:900px; margin:0 auto; padding:16px 16px 60px;}
-  .nav-box{
-    margin-bottom:14px; padding:14px 16px; background:#fff;
-    border-radius:12px; border:1px solid var(--border);
-  }
-  .nav-label{font-size:14px; font-weight:700; color:var(--accent-dark); margin:0 0 8px;}
-  .nav{
-    display:flex; flex-wrap:wrap; gap:6px;
-  }
-  .nav a{
-    font-size:12px; color:var(--accent-dark); text-decoration:none; background:var(--chip);
-    padding:5px 10px; border-radius:999px;
-  }
-  .nav a:hover{background:var(--chip-hover);}
-
-  section.cat{
-    background:var(--card); border:1px solid var(--border); border-radius:12px;
-    padding:14px 16px; margin-bottom:14px; scroll-margin-top:calc(var(--sticky-h) + 12px);
-  }
-  section.cat h2{
-    font-size:14px; margin:0 0 4px; color:var(--accent-dark); display:flex; align-items:center; gap:6px;
-  }
-  section.cat .desc{font-size:12px; color:var(--sub); margin:0 0 10px;}
-  .chips{display:flex; flex-wrap:wrap; gap:8px;}
-
-  .chip{
-    position:relative; display:flex; flex-direction:column; align-items:flex-start;
-    background:var(--chip); border:1px solid var(--border); border-radius:10px;
-    padding:7px 10px 6px 10px; cursor:pointer; min-width:64px;
-    transition:background .12s, transform .08s;
-  }
-  .chip:hover{background:var(--chip-hover); transform:translateY(-1px);}
-  .chip .primary{font-size:14px; font-weight:700; color:var(--text); line-height:1.3;}
-  .chip .secondary{font-size:11px; color:var(--sub); line-height:1.3; margin-top:1px;}
-  .chip .note{font-size:10px; color:#c98a00; margin-top:2px;}
-  .chip .tags{font-size:10px; color:var(--accent-dark); margin-top:2px;}
-  .chip .province{font-size:10px; color:var(--sub); margin-top:2px;}
-  .chip-actions{display:flex; flex-wrap:wrap; gap:5px; margin-top:auto; padding-top:6px;}
-  .chip-actions button{
-    font-size:11px; cursor:pointer; white-space:nowrap;
-    padding:3px 8px; border-radius:999px; background:#fff; border:1px solid var(--border);
-    display:inline-flex; align-items:center; gap:3px; color:var(--sub);
-  }
-  .chip-actions .add-btn{color:var(--accent-dark); border-color:#f6b8bf; font-weight:700;}
-  .chip-actions .add-btn:hover{background:var(--accent); color:#fff; border-color:var(--accent);}
-  .chip-actions .copy-btn:hover, .chip-actions .del-btn:hover{background:var(--chip-hover); color:var(--accent-dark);}
-  .chip.copied .copy-btn{color:#fff; background:var(--accent); border-color:var(--accent);}
-  .chip.in-combo{background:#ffe9c2; border-color:#f0b95a;}
-  .chip.custom{border-style:dashed;}
-  .chip.hidden{display:none;}
-  section.cat.hidden{display:none;}
-  section.cat.custom-cat h2::after{
-    content:"追加"; font-size:10px; font-weight:400; color:#c98a00; background:#fff4dd;
-    padding:1px 6px; border-radius:999px; margin-left:4px;
-  }
-  .usage-badge{
-    font-size:10px; font-weight:400; color:var(--accent-dark); background:#ffe1e4;
-    padding:1px 8px; border-radius:999px; margin-left:6px; white-space:nowrap;
-  }
-  .toggle-more-btn{
-    display:block; margin:10px 0 0 auto; padding:7px 16px; font-size:12px; font-weight:700;
-    color:var(--accent-dark); background:var(--chip); border:1px solid var(--border);
-    border-radius:999px; cursor:pointer;
-  }
-  .toggle-more-btn:hover{background:var(--chip-hover);}
-
-  .toast{
-    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-    background:#26232a; color:#fff; padding:9px 18px; border-radius:999px; font-size:13px;
-    opacity:0; pointer-events:none; transition:opacity .2s; z-index:50;
-  }
-  .toast.show{opacity:1;}
-
-  footer{max-width:900px; margin:0 auto 30px; text-align:center; font-size:11px; color:var(--sub);}
+section.cat{
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:14px 16px; margin-bottom:14px; scroll-margin-top:calc(var(--sticky-h) + 12px);
+}
+section.cat h2{
+  font-size:14px; margin:0 0 4px; color:var(--accent-dark); display:flex; align-items:center; gap:6px;
+}
+section.cat .desc{font-size:12px; color:var(--sub); margin:0 0 10px;}
+.chips{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{
+  position:relative; display:flex; flex-direction:column; align-items:flex-start;
+  background:var(--chip); border:1px solid var(--border); border-radius:10px;
+  padding:7px 10px 6px 10px; cursor:pointer; min-width:64px;
+  transition:background .12s, transform .08s;
+}
+.chip:hover{background:var(--chip-hover); transform:translateY(-1px);}
+.chip .primary{font-size:14px; font-weight:700; color:var(--text); line-height:1.3;}
+.chip .secondary{font-size:11px; color:var(--sub); line-height:1.3; margin-top:1px;}
+.chip .note{font-size:10px; color:#c98a00; margin-top:2px;}
+.chip .tags{font-size:10px; color:var(--accent-dark); margin-top:2px;}
+.chip .province{font-size:10px; color:var(--sub); margin-top:2px;}
+.chip-actions{display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; padding-top:6px;}
+.chip-actions button{
+  font-size:11px; cursor:pointer; white-space:nowrap;
+  padding:3px 8px; border-radius:999px; background:#fff; border:1px solid var(--border);
+  display:inline-flex; align-items:center; gap:3px; color:var(--sub);
+}
+.chip-actions .add-btn{color:var(--accent-dark); border-color:#f6b8bf; font-weight:700;}
+.chip-actions .add-btn:hover{background:var(--accent); color:#fff; border-color:var(--accent);}
+.chip.in-combo{background:#ffe9c2; border-color:#f0b95a;}
+.chip.copied .copy-btn{color:#fff; background:var(--accent); border-color:var(--accent);}
+.chip.hidden{display:none;}
+section.cat.priority-cat{
+  border-color:var(--accent); box-shadow:0 0 0 2px rgba(255,36,66,.12);
+}
+section.cat.hidden{display:none;}
+.toggle-more-btn{
+  display:block; margin:10px 0 0 auto; padding:7px 16px; font-size:12px; font-weight:700;
+  color:var(--accent-dark); background:var(--chip); border:1px solid var(--border);
+  border-radius:999px; cursor:pointer;
+}
+.toggle-more-btn:hover{background:var(--chip-hover);}
+.toast{
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  background:#26232a; color:#fff; padding:9px 18px; border-radius:999px; font-size:13px;
+  opacity:0; pointer-events:none; transition:opacity .2s; z-index:50; max-width:88vw; text-align:center;
+}
+.toast.show{opacity:1;}
+footer{max-width:900px; margin:0 auto 30px; text-align:center; font-size:11px; color:var(--sub);}
+.no-result{font-size:13px; color:var(--sub); text-align:center; padding:30px 0;}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🔎 小紅書(RED) IPコラボ検索キーワード集 <span class="private-badge">管理者用・非公開</span></h1>
-  <p>キーワードをタップ → 小紅書で検索 / コピーアイコンで文字だけコピー</p>
+<h1>🔎 小紅書(RED) IPコラボ検索キーワード集
+  </h1>
 </header>
 
 <div class="search-bar">
   <div class="search-row">
-    <input id="filterInput" type="text" placeholder="キーワードを検索（日本語・中国語どちらでもOK 例: コラボ / 联名 / ちいかわ / 香港）" autocomplete="off">
-    <span class="count-badge" id="countBadge"></span>
+    <input id="filterInput" type="text" placeholder="" autocomplete="off">
+    <button class="icon-btn search" id="topSearchBtn">検索</button>
+    <button class="icon-btn reset" id="topResetBtn">リセット</button>
+    <button class="icon-btn copy" id="topCopyBtn">コピー</button>
   </div>
-  <div class="quick-tags">
-    <button data-q="联名">联名(コラボ)</button>
-    <button data-q="汇总">汇总(まとめ)</button>
-    <button data-q="快闪店">快闪店(ポップアップ)</button>
-    <button data-q="盲盒">盲盒(ブラインドボックス)</button>
-    <button data-q="预约">预约(予約)</button>
-    <button data-q="限定">限定</button>
-    <button data-q="">すべて表示</button>
+  <div class="count-badge" id="countBadge"></div>
+  <div class="variant-toggle">
+    <span class="variant-label">表記:</span>
+    <button class="variant-btn active" id="variantSimpBtn" data-variant="simp">簡体字</button>
+    <button class="variant-btn" id="variantTradBtn" data-variant="trad">繁体字</button>
   </div>
+  <div class="active-filter-chip" id="activeFilterChip">
+    <span id="activeFilterLabel"></span>
+    <button id="activeFilterClearBtn" title="絞り込み解除">×</button>
+  </div>
+  <div class="quick-tags" id="quickTags"></div>
 </div>
 
 <div class="toolbar-extra">
-  <p class="combo-hint">💡 下のカテゴリ一覧の各キーワードにある「➕」を押すと・すぐ下の🧩複合キーワード欄に追加されます</p>
-
+  <p class="combo-hint">💡 各キーワードの「➕」で下の🧩複合キーワード欄に追加できます</p>
   <div class="builder">
-    <div class="builder-title">🛠 複合キーワードを組み立てる（例: ckw + 8月 + 联名汇总）</div>
+    <div class="builder-title">🛠 月別まとめを調べる（例: ckw + 8月 + 联名汇总）</div>
     <div class="builder-row">
       <select id="bIp">
         <option value="">（指定しない）</option>
@@ -196,13 +246,11 @@
 
   <div class="combo-bar" id="comboBar">
     <div class="combo-inner">
-      <div class="combo-top">
-        <span class="combo-label">🧩 カテゴリから組み立てた複合キーワード</span>
-      </div>
+      <div class="combo-top"><span class="combo-label">🧩 組み立てた複合キーワード</span></div>
       <div class="combo-list" id="comboList"></div>
       <div class="combo-actions">
         <div class="combo-preview" id="comboPreview">—</div>
-        <button id="comboSearchBtn">🔎 この組み合わせで検索</button>
+        <button id="comboSearchBtn">🔎 検索</button>
         <button id="comboClearBtn">クリア</button>
       </div>
     </div>
@@ -210,505 +258,679 @@
 </div>
 
 <main>
-  <div class="lock-bar">
-    <button id="lockToggleBtn">🔒 編集モード（開発者用）</button>
-  </div>
-
-  <details class="add-panel" id="addPanel" hidden>
-    <summary>➕ 新しいキーワード・カテゴリを追加する</summary>
-    <div class="add-body">
-      <p class="hint">追加したキーワードはこのブラウザに自動保存されます。このパネルはパスコードでロックされており・あなた専用です（公開・共有時はロックしたままにしてください）。他の端末と共有したい場合は下の「エクスポート」でJSONを書き出してください。</p>
-      <div class="add-grid">
-        <select id="newCatSelect"></select>
-        <input type="text" id="newCatTitleInput" placeholder="新しいカテゴリ名（例：⑨ 新ブランド）" style="display:none;">
-      </div>
-      <div class="add-grid">
-        <input type="text" id="newZh" placeholder="中国語キーワード（必須）例：联名彩妆">
-        <input type="text" id="newJa" placeholder="日本語の意味（任意）">
-        <input type="text" id="newTags" placeholder="タグ（任意）例：三丽鸥・宝可梦">
-        <input type="text" id="newNote" placeholder="補足メモ（任意）">
-      </div>
-      <div class="add-actions">
-        <button id="addKeywordBtn">＋ 追加する</button>
-      </div>
-      <div class="io-row">
-        <button id="exportBtn">📤 バックアップをエクスポート</button>
-        <label for="importFile">📥 JSONをインポート</label>
-        <input type="file" id="importFile" accept="application/json">
-        <button id="resetCustomBtn">🗑 追加分をすべて削除</button>
-        <button id="lockAgainBtn">🔒 ロックする</button>
-      </div>
-    </div>
-  </details>
-
   <nav class="nav-box">
     <p class="nav-label">📂 カテゴリから選ぶ</p>
-    <div class="nav" id="navLinks"></div>
+    <div class="group-list" id="groupList"></div>
   </nav>
+
   <div id="catContainer"></div>
+  <div class="no-result" id="noResult" style="display:none;">該当するキーワードが見つかりません</div>
 </main>
 
-<footer>キーワードはクリックで小紅書(rednote.com)の検索結果を新しいタブで開きます。※投稿の日付・時期は必ず現地の最新情報を確認してください。<br>これは管理者用ファイルです。公開・共有する場合は「_public」ファイルを使ってください。</footer>
+<footer>キーワードはタップで小紅書アプリ(なければブラウザ)を開きます。※投稿の日付・時期は必ず現地の最新情報を確認してください。</footer>
 <div class="toast" id="toast">コピーしました</div>
 
 <script>
-const EDIT_PASSCODE = "0809"; // ここを好きなパスコードに変更してください
-
 const DATA = [
-  {
-    id:"basic", title:"① コラボに関する基本ワード", desc:"まず押さえたい基本用語",
-    items:[
-      {zh:"联名", ja:"コラボ"},
-      {zh:"活动", ja:"イベント"},
-      {zh:"联动", ja:"コラボイベント"},
-      {zh:"近期联名汇总", ja:"最近のコラボまとめ"},
-      {zh:"8月联名汇总", ja:"8月コラボまとめ", note:"月を差し替えて使う"},
-    ]
-  },
-  {
-    id:"store", title:"② お店の種類", desc:"",
-    items:[
-      {zh:"旗舰店", ja:"旗艦店"},
-      {zh:"快闪店", ja:"ポップアップストア", note:"最初は先着順予約制・落ち着くと予約不要のことが多い"},
-      {zh:"主题店", ja:"テーマショップ"},
-      {zh:"首店", ja:"本店（その地域の）"},
-      {zh:"总店", ja:"総本店/地域最大の旗艦店"},
-      {zh:"特展", ja:"特別展"},
-      {zh:"官方店", ja:"公式ショップ", note:"ポケモン等でよく使われる"},
-      {zh:"动漫主题餐厅", ja:"マンガ・アニメ系コラボカフェ"},
-      {zh:"餐厅", ja:"高級レストラン", note:"高級感を出す時にも"},
-      {zh:"饭店", ja:"一般的なレストラン"},
-      {zh:"商场 / 商城", ja:"ショッピングセンター"},
-    ]
-  },
-  {
-    id:"reserve", title:"③ 予約・時間・場所・価格", desc:"",
-    items:[
-      {zh:"预约 / 预订", ja:"予約"},
-      {zh:"提前预订", ja:"事前予約・先行予約"},
-      {zh:"预售 / 預售", ja:"予約・受注販売"},
-      {zh:"预购", ja:"予約申込・受注予約申込"},
-      {zh:"8月2日起", ja:"8/2〜"},
-      {zh:"日期", ja:"日付"},
-      {zh:"27/7・1/8", ja:"香港式日付表記（27/7=7/27・1/8=8/1）"},
-      {zh:"上线", ja:"公開・リリース"},
-      {zh:"活动时间", ja:"イベント期間"},
-      {zh:"开始", ja:"開始"},
-      {zh:"门票 / 票", ja:"チケット"},
-      {zh:"卡", ja:"カード"},
-      {zh:"优惠 / 優惠", ja:"優待・割引・お得な特典"},
-      {zh:"促銷 / 促銷", ja:"セール"},
-      {zh:"特売 / 特價", ja:"特売"},
-      {zh:"打折", ja:"割引"},
-      {zh:"3折", ja:"7割引"},
-      {zh:"各种", ja:"各種"},
-      {zh:"一个", ja:"1個"},
-      {zh:"¥ 49.9/款", ja:"1個につき49.9元"},
-      {zh:"时间 / 几天 / 3个小时", ja:"時間 / 3日間 / 3時間"},
-      {zh:"星期一〜星期六", ja:"月曜日〜土曜日（月=1・土=6）"},
-      {zh:"星期天 / 星期日", ja:"日曜日（7とは言わない）"},
-      {zh:"周末", ja:"週末"},
-      {zh:"¥ / 元 / 块", ja:"元（¥は日本円でなく元。块は口語・元は正式）"},
-      {zh:"HK", ja:"香港ドル"},
-      {zh:"价格 / 價格", ja:"価格"},
-      {zh:"城市", ja:"都市"},
-      {zh:"地址", ja:"住所"},
-      {zh:"地方", ja:"場所"},
-    ]
-  },
-  {
-    id:"new", title:"④ 新作・まとめ系", desc:"",
-    items:[
-      {zh:"新周辺", ja:"新商品まわり"},
-      {zh:"新品", ja:"新商品"},
-      {zh:"限定", ja:"限定"},
-      {zh:"合集 / 汇总", ja:"まとめ・コレクション"},
-      {zh:"消息", ja:"ニュース"},
-      {zh:"篇", ja:"編（前編・後編・完結編）"},
-      {zh:"东西", ja:"もの・品物"},
-    ]
-  },
-  {
-    id:"verb", title:"⑤ 動作（動詞）", desc:"",
-    items:[
-      {zh:"吃", ja:"食べる"},
-      {zh:"喝", ja:"飲む"},
-      {zh:"看", ja:"見る・観る"},
-      {zh:"去", ja:"行く"},
-      {zh:"问", ja:"聞く"},
-      {zh:"做", ja:"作る"},
-      {zh:"想", ja:"〜したい（願望・夢）"},
-      {zh:"要", ja:"〜したい（強い意志・要求）"},
-      {zh:"来了", ja:"来た"},
-      {zh:"排队 / 等", ja:"並ぶ / 待つ"},
-    ]
-  },
-  {
-    id:"season", title:"⑥ コラボでよくある季節イベント", desc:"",
-    items:[
-      {zh:"春天", ja:"春"},
-      {zh:"夏天", ja:"夏"},
-      {zh:"秋天", ja:"秋"},
-      {zh:"冬天", ja:"冬"},
-      {zh:"春节 / 春節", ja:"旧正月（1〜2月）"},
-      {zh:"情人节 / 情人節", ja:"バレンタインデー（2月）"},
-      {zh:"中秋节 / 中秋節", ja:"十五夜"},
-      {zh:"七夕", ja:"七夕"},
-      {zh:"万圣节 / 萬聖節", ja:"ハロウィン"},
-      {zh:"圣诞节 / 聖誕節", ja:"クリスマス"},
-    ]
-  },
-  {
-    id:"goods", title:"⑦ グッズ・エンタメ", desc:"",
-    items:[
-      {zh:"大电影 / 电影", ja:"劇場版 / 映画"},
-      {zh:"角色", ja:"キャラ"},
-      {zh:"动漫 / 二次元", ja:"漫画・アニメ・ゲーム・ラノベ"},
-      {zh:"谷子", ja:"グッズ"},
-      {zh:"抓娃娃", ja:"クレーンゲーム"},
-      {zh:"景品娃娃机", ja:"クレーンゲーム"},
-      {zh:"景品", ja:"プライズ景品"},
-      {zh:"盲盒", ja:"ブラインドボックス"},
-      {zh:"徽章 / 吧唧", ja:"缶バッジ", note:"吧唧はスラング表現"},
-      {zh:"色纸", ja:"色紙"},
-      {zh:"立牌", ja:"アクリルスタンド"},
-      {zh:"流沙麻将 / 流沙麻將", ja:"リキッドアクリルブロック"},
-      {zh:"亚克力砖 / 壓克力磚", ja:"アクリルブロック"},
-      {zh:"明信片", ja:"ポストカード"},
-      {zh:"拍立得", ja:"チェキ風カード"},
-      {zh:"特典卡", ja:"特典カード"},
-      {zh:"挂件 / 掛件", ja:"キーホルダー"},
-      {zh:"手办 / 手辦", ja:"フィギュア"},
-      {zh:"毛绒公仔 / 毛絨公仔", ja:"ぬいぐるみ"},
-      {zh:"毛绒挂件 / 毛絨掛件", ja:"ぬいぐるみキーホルダー"},
-      {zh:"贴纸 / 貼紙", ja:"シール"},
-      {zh:"文件袋", ja:"クリアファイル"},
-      {zh:"胶片卡 / 膠片卡", ja:"クリアカード"},
-      {zh:"冰箱贴", ja:"冷蔵庫マグネット"},
-      {zh:"随行杯 / 隨行杯", ja:"タンブラー"},
-      {zh:"T恤", ja:"Tシャツ"},
-      {zh:"袜子", ja:"靴下"},
-      {zh:"包包", ja:"バッグ"},
-      {zh:"收纳包 / 收納包", ja:"ポーチ"},
-      {zh:"盒子", ja:"箱・ケース・小物入れ"},
-      {zh:"手表", ja:"腕時計"},
-    ]
-  },
-  {
-    id:"region", title:"⑧ 地域・都市", desc:"店舗があるIPをタグで表示（※=2026年秋オープン予定）",
-    items:[
-      {zh:"澳門 / 澳", ja:"マカオ"},
-      {zh:"香港 / 港", ja:"香港"},
-      {zh:"本土", ja:"中国本土"},
-      {zh:"重庆", ja:"重慶", tags:"宝可梦・三丽鸥", province:"直轄市"},
-      {zh:"上海", ja:"", tags:"ckw・宝可梦・三丽鸥", province:"直轄市"},
-      {zh:"北京", ja:"", tags:"宝可梦・三丽鸥", province:"直轄市"},
-      {zh:"成都", ja:"", tags:"宝可梦・三丽鸥", province:"四川省"},
-      {zh:"广州", ja:"広州", tags:"ckw・宝可梦・三丽鸥", province:"広東省"},
-      {zh:"深圳", ja:"深セン", tags:"宝可梦・三丽鸥", province:"広東省"},
-      {zh:"武汉", ja:"武漢", tags:"宝可梦・三丽鸥", province:"湖北省"},
-      {zh:"天津", ja:"", tags:"宝可梦※・三丽鸥", province:"直轄市"},
-      {zh:"西安", ja:"", tags:"宝可梦・三丽鸥", province:"陝西省"},
-      {zh:"东莞", ja:"東莞", tags:"宝可梦※", province:"広東省"},
-      {zh:"青岛", ja:"青島", tags:"宝可梦※・三丽鸥", province:"山東省"},
-      {zh:"长沙", ja:"長沙", tags:"宝可梦・三丽鸥", province:"湖南省"},
-      {zh:"温州", ja:"", tags:"宝可梦・三丽鸥", province:"浙江省"},
-      {zh:"哈尔滨", ja:"ハルビン", tags:"宝可梦※", province:"黒竜江省"},
-      {zh:"南京", ja:"", tags:"ckw・宝可梦※・三丽鸥", province:"江蘇省"},
-      {zh:"沈阳", ja:"瀋陽", tags:"宝可梦・三丽鸥", province:"遼寧省"},
-      {zh:"福州", ja:"", tags:"宝可梦", province:"福建省"},
-      {zh:"宁波", ja:"寧波", tags:"宝可梦・三丽鸥", province:"浙江省"},
-      {zh:"大连", ja:"大連", tags:"宝可梦", province:"遼寧省"},
-      {zh:"徐州", ja:"", province:"江蘇省"},
-      {zh:"南宁", ja:"南寧", province:"広西壮族自治区"},
-      {zh:"泉州", ja:"", province:"福建省"},
-      {zh:"昆明", ja:"", province:"雲南省"},
-      {zh:"南通", ja:"", province:"江蘇省"},
-      {zh:"唐山", ja:"", province:"河北省"},
-      {zh:"无锡", ja:"無錫", tags:"三丽鸥", province:"江蘇省"},
-      {zh:"金华", ja:"金華", province:"浙江省"},
-      {zh:"烟台", ja:"煙台", province:"山東省"},
-      {zh:"台州", ja:"", province:"浙江省"},
-      {zh:"南昌", ja:"", province:"江西省"},
-      {zh:"惠州", ja:"恵州", province:"広東省"},
-      {zh:"贵阳", ja:"貴陽", province:"貴州省"},
-      {zh:"汕头", ja:"汕頭", province:"広東省"},
-      {zh:"常州", ja:"", province:"江蘇省"},
-      {zh:"绍兴", ja:"紹興", province:"浙江省"},
-      {zh:"中山", ja:"", province:"広東省"},
-      {zh:"兰州", ja:"蘭州", province:"甘粛省"},
-      {zh:"石家庄", ja:"石家荘", tags:"三丽鸥", province:"河北省"},
-      {zh:"合肥", ja:"", tags:"三丽鸥", province:"安徽省"},
-      {zh:"邯郸", ja:"ハンタン", province:"河北省"},
-      {zh:"南阳", ja:"南陽", province:"河南省"},
-      {zh:"周口", ja:"", province:"河南省"},
-      {zh:"茂名", ja:"", province:"広東省"},
-      {zh:"湛江", ja:"", province:"広東省"},
-      {zh:"盐城", ja:"塩城", province:"江蘇省"},
-      {zh:"潍坊", ja:"濰坊", province:"山東省"},
-      {zh:"济南", ja:"済南", tags:"三丽鸥", province:"山東省"},
-      {zh:"厦门", ja:"厦門", tags:"三丽鸥", province:"福建省"},
-      {zh:"珠海", ja:"", tags:"三丽鸥", province:"広東省"},
-      {zh:"威海", ja:"", tags:"三丽鸥", province:"山東省"},
-      {zh:"海口", ja:"", tags:"三丽鸥", province:"海南省"},
-      {zh:"三亚", ja:"三亜", tags:"三丽鸥", province:"海南省"},
-    ]
-  },
-  {
-    id:"ckw", title:"④-1 キャラ：ちいかわ（ckw / 吉伊卡哇 / chiikawa）", desc:"",
-    items:[
-      {zh:"吉伊", ja:"ちいかわ", reading:"ジイ"},
-      {zh:"小八", ja:"ハチワレ", reading:"シャオバー"},
-      {zh:"乌萨奇", ja:"うさぎ", reading:"ウーサーチー"},
-      {zh:"栗子馒头", ja:"くりまんじゅう", reading:"リィツマントウ"},
-      {zh:"飞鼠", ja:"モモンガ", reading:"フェイシュー"},
-      {zh:"古本屋", ja:"古本屋", reading:"グーベンウー"},
-      {zh:"大强", ja:"でかつよ", reading:"ダーチアン"},
-      {zh:"那孩子", ja:"あのこ", reading:"ナーハイズ"},
-      {zh:"狮萨", ja:"シーサー"},
-      {zh:"獭师 / 海獭师傅", ja:"ラッコ", reading:"ターシー", note:"海獭=ラッコ・师傅=師匠"},
-      {zh:"手工铠", ja:"ポシェットの鎧さん", reading:"ショウゴンカイ"},
-      {zh:"拉面铠", ja:"ラーメンの鎧さん", reading:"ラーミェンカイ"},
-      {zh:"塞壬", ja:"セイレーン", reading:"サイレン"},
-      {zh:"岛二郎", ja:"島ニ郎", reading:"ダオアールラン"},
-      {zh:"自嘲熊", ja:"ナガノくま", reading:"ツーチャオション"},
-    ]
-  },
-  {
-    id:"sanrio", title:"④-2 キャラ：サンリオ（三丽鸥）", desc:"",
-    items:[
-      {zh:"布丁狗", ja:"ポムポムプリン"},
-      {zh:"大耳狗 / 玉桂狗", ja:"シナモロール"},
-      {zh:"帕恰狗", ja:"ポチャッコ"},
-      {zh:"库洛米", ja:"クロミ"},
-      {zh:"Hello Kitty", ja:"ハローキティ"},
-      {zh:"贝克鸭", ja:"あひるのペックル"},
-      {zh:"美乐蒂", ja:"マイメロディ"},
-      {zh:"山姆企鹅", ja:"タキシードサム"},
-      {zh:"人鱼汉顿", ja:"ハンギョドン"},
-      {zh:"双子星 / KikiLala", ja:"リトルツインスターズ"},
-      {zh:"酷企鹅", ja:"バッドばつ丸"},
-      {zh:"棉花糖小兔", ja:"こぎみゅん"},
-      {zh:"甜美钢琴", ja:"マイスウィートピアノ"},
-      {zh:"大眼蛙", ja:"けろけろけろっぴ"},
-      {zh:"花丸幽灵", ja:"はなまるおばけ"},
-    ]
-  },
-  {
-    id:"pokemon", title:"④-3 キャラ：ポケットモンスター（宝可梦）", desc:"",
-    items:[
-      {zh:"皮卡丘", ja:"ピカチュウ"},
-      {zh:"喷火龙", ja:"リザードン"},
-      {zh:"杰尼龟", ja:"ゼニガメ"},
-      {zh:"胖丁", ja:"プリン"},
-      {zh:"可达鸭", ja:"コダック"},
-      {zh:"喵喵", ja:"ニャース"},
-      {zh:"卡比兽", ja:"カビゴン"},
-      {zh:"伊布", ja:"イーヴイ"},
-    ]
-  },
-  {
-    id:"disney", title:"④-4 キャラ：ディズニー（迪士尼）", desc:"ディズニーランドは 迪士尼乐园",
-    items:[
-      {zh:"达菲 / 達菲", ja:"ダッフィー"},
-      {zh:"雪莉玫", ja:"シェリーメイ"},
-      {zh:"杰拉多尼 / 傑拉多尼", ja:"ジェラトーニ"},
-      {zh:"星黛露", ja:"ステラルー"},
-      {zh:"可琦安", ja:"クッキー・アン"},
-      {zh:"奥乐米拉 / 奧樂米拉", ja:"オル・メル"},
-      {zh:"玲娜贝儿 / 玲娜貝兒", ja:"リーナ・ベル"},
-      {zh:"米奇", ja:"ミッキーマウス"},
-      {zh:"米妮", ja:"ミニーマウス"},
-      {zh:"唐老鸭 / 唐老鴨", ja:"ドナルドダック"},
-      {zh:"黛西 / 黛絲", ja:"デイジーダック"},
-      {zh:"高飞 / 高飛", ja:"グーフィー"},
-      {zh:"布鲁托 / 布魯托", ja:"プルート"},
-      {zh:"奇奇和蒂蒂", ja:"チップとデール"},
-      {zh:"史迪奇", ja:"スティッチ"},
-      {zh:"小熊维尼 / 小熊維尼", ja:"くまのプーさん"},
-      {zh:"大白", ja:"ベイマックス"},
-      {zh:"草莓熊", ja:"ロッツォ"},
-      {zh:"艾莎", ja:"エルサ"},
-      {zh:"安娜", ja:"アナ"},
-      {zh:"玛丽 / 瑪麗", ja:"マリー"},
-      {zh:"尼克·王尔德 / 尼克·王爾德", ja:"ニック・ワイルド"},
-      {zh:"朱迪·霍普斯", ja:"ジュディ・ホップス"},
-      {zh:"杰克（南瓜王）", ja:"ナイトメアビフォアクリスマスのジャック"},
-      {zh:"杰克·斯派罗", ja:"ジャック・スパロウ"},
-      {zh:"反派", ja:"ヴィランズ"},
-    ]
-  },
-  {
-    id:"community", title:"⑤ コミュニティ・表現のトーン", desc:"呼び方・スラング / 感情表現",
-    items:[
-      {zh:"宝宝", ja:"赤ちゃん", note:"我が子のように愛情を込めて呼ぶ"},
-      {zh:"老师", ja:"先生（投稿者に対して）"},
-      {zh:"先生", ja:"男性の敬称・〜さん"},
-      {zh:"姐姐", ja:"女性の敬称・〜さん"},
-      {zh:"小（名前）", ja:"〜ちゃん・〜くん", note:"親しい間柄・年下に対して"},
-      {zh:"好看 / 可爱", ja:"きれい・見栄えが良い / 可愛い"},
-      {zh:"哭了 / 笑死了", ja:"泣いた / 面白すぎる・爆笑"},
-      {zh:"很 / 好", ja:"（とてもLv.1）"},
-      {zh:"挺", ja:"（けっこう・なかなかにLv.2）"},
-      {zh:"真 / 不错", ja:"（本当に/悪くない＝かなり良いLv.3）"},
-      {zh:"非常 / 特别 / 超", ja:"（非常に・特別に・超Lv.4）"},
-      {zh:"太 / 极其 / 极端", ja:"（あまりにも・極めて・極度にLv.5）"},
-      {zh:"～死 / 要命", ja:"（死ぬほど〜Lv.6・誇張表現）"},
-    ]
-  },
-  {
-    id:"brand-goods", title:"⑦-1 コラボ先：雑貨系", desc:"",
-    items:[
-      {zh:"MINISO / 名创", ja:"ミニソウ"},
-      {zh:"泡泡玛特 / POPMART", ja:""},
-      {zh:"TOPTOY", ja:""},
-      {zh:"言仓", ja:""},
-      {zh:"娃鸟联萌", ja:""},
-      {zh:"卡宝文创", ja:"カード系"},
-      {zh:"万代", ja:"バンダイ"},
-      {zh:"三丽鸥", ja:"サンリオ"},
-      {zh:"阿里鱼", ja:"アリババグループのライセンス管理会社"},
-    ]
-  },
-  {
-    id:"brand-food", title:"⑦-2 コラボ先：ファストフード・レストラン", desc:"",
-    items:[
-      {zh:"麦当劳", ja:"マクドナルド"},
-      {zh:"肯德基", ja:"ケンタッキー"},
-      {zh:"必勝客", ja:"ピザハット"},
-      {zh:"汉堡王 / 漢堡王", ja:"バーガーキング"},
-      {zh:"塔斯汀", ja:"タスティン"},
-      {zh:"华莱士 / 華莱士", ja:"ワライス"},
-      {zh:"吉野家", ja:""},
-      {zh:"松屋", ja:""},
-      {zh:"食其家", ja:"すき家"},
-      {zh:"CoCo壹番屋", ja:"ココイチ"},
-      {zh:"寿司郎", ja:"スシロー"},
-      {zh:"海底捞", ja:"火鍋屋"},
-    ]
-  },
-  {
-    id:"brand-cvs", title:"⑦-3 コラボ先：コンビニ", desc:"",
-    items:[
-      {zh:"7-11 / 711 / 7-Eleven", ja:"セブンイレブン"},
-      {zh:"全家", ja:"ファミリーマート"},
-      {zh:"羅森", ja:"ローソン"},
-    ]
-  },
-  {
-    id:"brand-coffee", title:"⑦-4 コラボ先：コーヒーチェーン", desc:"",
-    items:[
-      {zh:"瑞幸咖啡 / Luckin Coffee", ja:""},
-      {zh:"库迪咖啡 / Cotti Coffee", ja:""},
-      {zh:"幸运咖 / Lucky Cup", ja:""},
-      {zh:"挪瓦咖啡 / NOWWA Coffee", ja:""},
-      {zh:"Manner Coffee / 曼纳咖啡", ja:""},
-      {zh:"西西弗咖啡 / Seesaw Coffee", ja:""},
-      {zh:"M Stand", ja:""},
-      {zh:"Grid Coffee", ja:""},
-      {zh:"星巴克", ja:"スターバックスコーヒー"},
-      {zh:"KCOFFEE", ja:"KFCが展開するコーヒーブランド"},
-      {zh:"瑞幸即享", ja:"瑞幸咖啡のスーパー・コンビニ版"},
-      {zh:"咖啡", ja:"コーヒー"},
-      {zh:"拿铁咖啡", ja:"カフェラテ"},
-    ]
-  },
-  {
-    id:"brand-tea", title:"⑦-5 コラボ先：ミルクティー・ジュース・ヨーグルト", desc:"",
-    items:[
-      {zh:"蜜雪冰城 / MIXUE", ja:""},
-      {zh:"霸王茶姬 / CHAGEE", ja:""},
-      {zh:"爷爷不泡茶", ja:""},
-      {zh:"茶百道 / Cha Bai Dao", ja:""},
-      {zh:"喜茶 / HEYTEA", ja:""},
-      {zh:"奈雪的茶 / Naixue", ja:""},
-      {zh:"茶顔悦色 / Cha Yan Yue Se", ja:""},
-      {zh:"阿嬤手作 / A Ma Handmade", ja:""},
-      {zh:"茉莉奶白 / Molly Tea", ja:""},
-      {zh:"coco 都可", ja:""},
-      {zh:"柠季 / Ningji", ja:""},
-      {zh:"茉酸奶 / MORE YOGURT", ja:""},
-      {zh:"yee3", ja:""},
-      {zh:"沪上阿姨", ja:""},
-      {zh:"鹿角巷", ja:""},
-      {zh:"茶救星球", ja:""},
-      {zh:"東方墨籣 / 东方墨兰", ja:""},
-      {zh:"初茶 CHUCHAT", ja:""},
-      {zh:"古茗", ja:""},
-      {zh:"奶茶", ja:"ミルクティ"},
-      {zh:"果汁", ja:"ジュース"},
-      {zh:"酸奶", ja:"ヨーグルト"},
-    ]
-  },
-  {
-    id:"brand-drink", title:"⑦-6 コラボ先：飲料メーカー", desc:"",
-    items:[
-      {zh:"雀巢", ja:"ネスレ"},
-      {zh:"可口可乐", ja:"コカ・コーラ"},
-      {zh:"芬达", ja:"ファンタ"},
-      {zh:"百事可乐", ja:"ペプシ・コーラ"},
-      {zh:"三得利", ja:"サントリー"},
-    ]
-  },
-  {
-    id:"brand-sweets", title:"⑦-7 コラボ先：スイーツ・アイス", desc:"",
-    items:[
-      {zh:"DQ / Daily Queen", ja:""},
-      {zh:"好利来 / Holiland", ja:""},
-      {zh:"野人先生", ja:""},
-      {zh:"Heart", ja:"チョコレートブランド"},
-      {zh:"冰淇淋", ja:"アイスクリーム"},
-      {zh:"蛋糕", ja:"ケーキ"},
-      {zh:"巧克力", ja:"チョコレート"},
-    ]
-  },
-  {
-    id:"brand-fashion", title:"⑦-8 コラボ先：アパレル・コスメ", desc:"",
-    items:[
-      {zh:"优衣库 / UT", ja:"ユニクロ"},
-      {zh:"ZARA", ja:""},
-      {zh:"润培", ja:"コスメ・雑貨"},
-      {zh:"皮可熊", ja:"コスメ・雑貨"},
-      {zh:"柏瑞美", ja:"コスメ・雑貨"},
-      {zh:"OLAY", ja:"コスメブランド"},
-      {zh:"MAC", ja:"コスメブランド"},
-      {zh:"BOXFUN", ja:"腕時計ブラインドボックス"},
-    ]
-  },
-  {
-    id:"brand-cafe", title:"⑦-9 コラボ先：コラボカフェ系", desc:"",
-    items:[
-      {zh:"animate cafe", ja:""},
-      {zh:"IPSTAR / 星跡萌点", ja:""},
-      {zh:"次元波板糖 / DIMENSION POPTOWN", ja:""},
-      {zh:"三月兽 / March Monster / 三月兽cafe", ja:""},
-      {zh:"HAPPY ZOO", ja:""},
-      {zh:"ORBcafe", ja:""},
-    ]
-  },
+  { id:"basic", title:"コラボに関する基本ワード", desc:"まず押さえたい基本用語", items:[
+    {zh:"联名 / 聯名", ja:"コラボ"},
+    {zh:"活动 / 活動", ja:"イベント"},
+    {zh:"联动 / 聯動", ja:"コラボイベント"},
+    {zh:"近期联名汇总 / 近期聯名匯總", ja:"最近のコラボまとめ"},
+    {zh:"8月联名汇总 / 8月聯名匯總", ja:"8月コラボまとめ", note:"月を差し替えて使う"},
+  ]},
+  { id:"store", title:"お店の種類", desc:"", items:[
+    {zh:"旗舰店 / 旗艦店", ja:"旗艦店"},
+    {zh:"快闪店 / 快閃店", ja:"ポップアップストア", note:"最初は先着順予約制・落ち着くと予約不要のことが多い"},
+    {zh:"主题店 / 主題店", ja:"テーマショップ"},
+    {zh:"首店", ja:"本店（その地域の）"},
+    {zh:"总店 / 總店", ja:"総本店/地域最大の旗艦店"},
+    {zh:"特展", ja:"特別展"},
+    {zh:"官方店", ja:"公式ショップ", note:"ポケモン等でよく使われる"},
+    {zh:"动漫主题餐厅 / 動漫主題餐廳", ja:"マンガ・アニメ系コラボカフェ"},
+    {zh:"餐厅 / 餐廳", ja:"高級レストラン", note:"高級感を出す時にも"},
+    {zh:"饭店 / 飯店", ja:"一般的なレストラン"},
+    {zh:"商场、商城", ja:"ショッピングセンター"},
+  ]},
+  { id:"reserve", title:"予約・時間・場所・価格", desc:"", items:[
+    {zh:"预约 / 預約", ja:"予約"},
+    {zh:"提前预订 / 提前預訂", ja:"事前予約・先行予約"},
+    {zh:"预售 / 預售", ja:"予約・受注販売"},
+    {zh:"预购 / 預購", ja:"予約申込・受注予約申込"},
+    {zh:"8月2日起", ja:"8/2〜"},
+    {zh:"日期", ja:"日付"},
+    {zh:"27-7・1-8", ja:"香港式日付表記（27/7=7/27・1/8=8/1）"},
+    {zh:"上线 / 上線", ja:"公開・リリース"},
+    {zh:"活动时间 / 活動時間", ja:"イベント期間"},
+    {zh:"开始 / 開始", ja:"開始"},
+    {zh:"门票、票", ja:"チケット"},
+    {zh:"卡", ja:"カード"},
+    {zh:"优惠 / 優惠", ja:"優待・割引・お得な特典"},
+    {zh:"促銷", ja:"セール"},
+    {zh:"特卖、特價", ja:"特売"},
+    {zh:"打折", ja:"割引"},
+    {zh:"3折", ja:"7割引"},
+    {zh:"各种 / 各種", ja:"各種"},
+    {zh:"一个 / 一個", ja:"1個"},
+    {zh:"¥49.9、款", ja:"1個につき49.9元"},
+    {zh:"时间、几天", ja:"時間 / 3日間 / 3時間"},
+    {zh:"星期一〜星期六", ja:"月曜日〜土曜日（月=1・土=6）"},
+    {zh:"星期天、星期日", ja:"日曜日（7とは言わない）"},
+    {zh:"周末", ja:"週末"},
+    {zh:"¥、元", ja:"元（¥は日本円でなく元。块は口語・元は正式）"},
+    {zh:"HK", ja:"香港ドル"},
+    {zh:"价格 / 價格", ja:"価格"},
+    {zh:"城市", ja:"都市"},
+    {zh:"地址", ja:"住所"},
+    {zh:"地方", ja:"場所"},
+  ]},
+  { id:"new", title:"新作・まとめ系", desc:"", items:[
+    {zh:"新周辺 / 新周邊", ja:"新商品まわり"},
+    {zh:"新品", ja:"新商品"},
+    {zh:"限定", ja:"限定"},
+    {zh:"合集、汇总", ja:"まとめ・コレクション"},
+    {zh:"消息", ja:"ニュース"},
+    {zh:"篇", ja:"編（前編・後編・完結編）"},
+    {zh:"东西 / 東西", ja:"もの・品物"},
+  ]},
+  { id:"verb", title:"動作（動詞）", desc:"", items:[
+    {zh:"吃", ja:"食べる"},
+    {zh:"喝", ja:"飲む"},
+    {zh:"看", ja:"見る・観る"},
+    {zh:"去", ja:"行く"},
+    {zh:"问 / 問", ja:"聞く"},
+    {zh:"做", ja:"作る"},
+    {zh:"想", ja:"〜したい（願望・夢）"},
+    {zh:"要", ja:"〜したい（強い意志・要求）"},
+    {zh:"来了 / 來了", ja:"来た"},
+    {zh:"排队、等", ja:"並ぶ / 待つ"},
+  ]},
+  { id:"season", title:"コラボでよくある季節イベント", desc:"", items:[
+    {zh:"春天", ja:"春"},
+    {zh:"夏天", ja:"夏"},
+    {zh:"秋天", ja:"秋"},
+    {zh:"冬天", ja:"冬"},
+    {zh:"春节 / 春節", ja:"旧正月（1〜2月）"},
+    {zh:"情人节 / 情人節", ja:"バレンタインデー（2月）"},
+    {zh:"中秋节 / 中秋節", ja:"十五夜"},
+    {zh:"七夕", ja:"七夕"},
+    {zh:"万圣节 / 萬聖節", ja:"ハロウィン"},
+    {zh:"圣诞节 / 聖誕節", ja:"クリスマス"},
+  ]},
+  { id:"goods", title:"グッズ・エンタメ", desc:"", items:[
+    {zh:"大电影、电影", ja:"劇場版 / 映画"},
+    {zh:"角色", ja:"キャラ"},
+    {zh:"动漫、二次元", ja:"漫画・アニメ・ゲーム・ラノベ"},
+    {zh:"谷子", ja:"グッズ"},
+    {zh:"抓娃娃", ja:"クレーンゲーム"},
+    {zh:"景品娃娃机 / 景品娃娃機", ja:"クレーンゲーム"},
+    {zh:"景品", ja:"プライズ景品"},
+    {zh:"盲盒", ja:"ブラインドボックス"},
+    {zh:"徽章、吧唧", ja:"缶バッジ", note:"吧唧はスラング表現"},
+    {zh:"色纸 / 色紙", ja:"色紙"},
+    {zh:"立牌", ja:"アクリルスタンド"},
+    {zh:"流沙麻将 / 流沙麻將", ja:"リキッドアクリルブロック"},
+    {zh:"亚克力砖 / 壓克力磚", ja:"アクリルブロック"},
+    {zh:"明信片", ja:"ポストカード"},
+    {zh:"拍立得", ja:"チェキ風カード"},
+    {zh:"特典卡", ja:"特典カード"},
+    {zh:"挂件 / 掛件", ja:"キーホルダー"},
+    {zh:"手办 / 手辦", ja:"フィギュア"},
+    {zh:"毛绒公仔 / 毛絨公仔", ja:"ぬいぐるみ"},
+    {zh:"毛绒挂件 / 毛絨掛件", ja:"ぬいぐるみキーホルダー"},
+    {zh:"贴纸 / 貼紙", ja:"シール"},
+    {zh:"文件袋", ja:"クリアファイル"},
+    {zh:"胶片卡 / 膠片卡", ja:"クリアカード"},
+    {zh:"冰箱贴 / 冰箱貼", ja:"冷蔵庫マグネット"},
+    {zh:"随行杯 / 隨行杯", ja:"タンブラー"},
+    {zh:"T恤", ja:"Tシャツ"},
+    {zh:"袜子 / 襪子", ja:"靴下"},
+    {zh:"包包", ja:"バッグ"},
+    {zh:"收纳包 / 收納包", ja:"ポーチ"},
+    {zh:"盒子", ja:"箱・ケース・小物入れ"},
+    {zh:"手表", ja:"腕時計"},
+  ]},
+  { id:"region", title:"地域・都市", desc:"店舗があるIPをタグで表示（※=2026年秋オープン予定）", items:[
+    {zh:"澳門、澳", ja:"マカオ"},
+    {zh:"香港、港", ja:"香港"},
+    {zh:"本土", ja:"中国本土"},
+    {zh:"重庆", ja:"重慶", tags:"宝可梦・三丽鸥", province:"直轄市"},
+    {zh:"上海", tags:"ckw・宝可梦・三丽鸥", province:"直轄市"},
+    {zh:"北京", tags:"宝可梦・三丽鸥", province:"直轄市"},
+    {zh:"成都", tags:"宝可梦・三丽鸥", province:"四川省"},
+    {zh:"广州 / 廣州", ja:"広州", tags:"ckw・宝可梦・三丽鸥", province:"広東省"},
+    {zh:"深圳", ja:"深セン", tags:"宝可梦・三丽鸥", province:"広東省"},
+    {zh:"武汉 / 武漢", ja:"武漢", tags:"宝可梦・三丽鸥", province:"湖北省"},
+    {zh:"天津", tags:"宝可梦※・三丽鸥", province:"直轄市"},
+    {zh:"西安", tags:"宝可梦・三丽鸥", province:"陝西省"},
+    {zh:"东莞 / 東莞", ja:"東莞", tags:"宝可梦※", province:"広東省"},
+    {zh:"青岛 / 青島", ja:"青島", tags:"宝可梦※・三丽鸥", province:"山東省"},
+    {zh:"长沙 / 長沙", ja:"長沙", tags:"宝可梦・三丽鸥", province:"湖南省"},
+    {zh:"温州 / 溫州", tags:"宝可梦・三丽鸥", province:"浙江省"},
+    {zh:"哈尔滨 / 哈爾濱", ja:"ハルビン", tags:"宝可梦※", province:"黒竜江省"},
+    {zh:"南京", tags:"ckw・宝可梦※・三丽鸥", province:"江蘇省"},
+    {zh:"沈阳 / 沈陽", ja:"瀋陽", tags:"宝可梦・三丽鸥", province:"遼寧省"},
+    {zh:"福州", tags:"宝可梦", province:"福建省"},
+    {zh:"宁波 / 寧波", ja:"寧波", tags:"宝可梦・三丽鸥", province:"浙江省"},
+    {zh:"大连 / 大連", ja:"大連", tags:"宝可梦", province:"遼寧省"},
+    {zh:"徐州", province:"江蘇省"},
+    {zh:"南宁 / 南寧", ja:"南寧", province:"広西壮族自治区"},
+    {zh:"泉州", province:"福建省"},
+    {zh:"昆明", province:"雲南省"},
+    {zh:"南通", province:"江蘇省"},
+    {zh:"唐山", province:"河北省"},
+    {zh:"无锡 / 無錫", ja:"無錫", tags:"三丽鸥", province:"江蘇省"},
+    {zh:"金华 / 金華", ja:"金華", province:"浙江省"},
+    {zh:"烟台 / 煙台", ja:"煙台", province:"山東省"},
+    {zh:"台州", province:"浙江省"},
+    {zh:"南昌", province:"江西省"},
+    {zh:"惠州", ja:"恵州", province:"広東省"},
+    {zh:"贵阳 / 貴陽", ja:"貴陽", province:"貴州省"},
+    {zh:"汕头 / 汕頭", ja:"汕頭", province:"広東省"},
+    {zh:"常州", province:"江蘇省"},
+    {zh:"绍兴 / 紹興", ja:"紹興", province:"浙江省"},
+    {zh:"中山", province:"広東省"},
+    {zh:"兰州 / 蘭州", ja:"蘭州", province:"甘粛省"},
+    {zh:"石家庄 / 石家莊", ja:"石家荘", tags:"三丽鸥", province:"河北省"},
+    {zh:"合肥", tags:"三丽鸥", province:"安徽省"},
+    {zh:"邯郸 / 邯鄲", ja:"ハンタン", province:"河北省"},
+    {zh:"南阳 / 南陽", ja:"南陽", province:"河南省"},
+    {zh:"周口", province:"河南省"},
+    {zh:"茂名", province:"広東省"},
+    {zh:"湛江", province:"広東省"},
+    {zh:"盐城 / 鹽城", ja:"塩城", province:"江蘇省"},
+    {zh:"潍坊 / 濰坊", ja:"濰坊", province:"山東省"},
+    {zh:"济南 / 濟南", ja:"済南", tags:"三丽鸥", province:"山東省"},
+    {zh:"厦门 / 廈門", ja:"厦門", tags:"三丽鸥", province:"福建省"},
+    {zh:"珠海", tags:"三丽鸥", province:"広東省"},
+    {zh:"威海", tags:"三丽鸥", province:"山東省"},
+    {zh:"海口", tags:"三丽鸥", province:"海南省"},
+    {zh:"三亚 / 三亞", ja:"三亜", tags:"三丽鸥", province:"海南省"},
+  ]},
+  { id:"ckw", title:"キャラ：ちいかわ（ckw / 吉伊卡哇 / chiikawa）", group:"character", groupLabel:"ちいかわ", desc:"", items:[
+    {zh:"吉伊", ja:"ちいかわ", reading:"ジイ"},
+    {zh:"小八", ja:"ハチワレ", reading:"シャオバー"},
+    {zh:"乌萨奇 / 烏薩奇", ja:"うさぎ", reading:"ウーサーチー"},
+    {zh:"栗子馒头 / 栗子饅頭", ja:"くりまんじゅう", reading:"リィツマントウ"},
+    {zh:"飞鼠 / 飛鼠", ja:"モモンガ", reading:"フェイシュー"},
+    {zh:"古本屋", ja:"古本屋", reading:"グーベンウー"},
+    {zh:"大强 / 大強", ja:"でかつよ", reading:"ダーチアン"},
+    {zh:"那孩子", ja:"あのこ", reading:"ナーハイズ"},
+    {zh:"狮萨 / 獅薩", ja:"シーサー"},
+    {zh:"獭师、海獭师傅", ja:"ラッコ", reading:"ターシー", note:"海獭=ラッコ・师傅=師匠"},
+    {zh:"手工铠 / 手工鎧", ja:"ポシェットの鎧さん", reading:"ショウゴンカイ"},
+    {zh:"拉面铠 / 拉麵鎧", ja:"ラーメンの鎧さん", reading:"ラーミェンカイ"},
+    {zh:"塞壬", ja:"セイレーン", reading:"サイレン"},
+    {zh:"岛二郎 / 島二郎", ja:"島ニ郎", reading:"ダオアールラン"},
+    {zh:"自嘲熊", ja:"ナガノくま", reading:"ツーチャオション"},
+  ]},
+  { id:"sanrio", title:"キャラ：サンリオ（三丽鸥）", group:"character", groupLabel:"サンリオ", desc:"", items:[
+    {zh:"布丁狗", ja:"ポムポムプリン"},
+    {zh:"大耳狗、玉桂狗", ja:"シナモロール"},
+    {zh:"帕恰狗", ja:"ポチャッコ"},
+    {zh:"库洛米 / 庫洛米", ja:"クロミ"},
+    {zh:"Hello Kitty", ja:"ハローキティ"},
+    {zh:"贝克鸭 / 貝克鴨", ja:"あひるのペックル"},
+    {zh:"美乐蒂 / 美樂蒂", ja:"マイメロディ"},
+    {zh:"山姆企鹅 / 山姆企鵝", ja:"タキシードサム"},
+    {zh:"人鱼汉顿 / 人魚漢頓", ja:"ハンギョドン"},
+    {zh:"双子星、KikiLala", ja:"リトルツインスターズ"},
+    {zh:"酷企鹅 / 酷企鵝", ja:"バッドばつ丸"},
+    {zh:"棉花糖小兔", ja:"こぎみゅん"},
+    {zh:"甜美钢琴 / 甜美鋼琴", ja:"マイスウィートピアノ"},
+    {zh:"大眼蛙", ja:"けろけろけろっぴ"},
+    {zh:"花丸幽灵 / 花丸幽靈", ja:"はなまるおばけ"},
+  ]},
+  { id:"pokemon", title:"キャラ：ポケモン（宝可梦）", group:"character", groupLabel:"ポケモン", desc:"", items:[
+    {zh:"皮卡丘", ja:"ピカチュウ"},
+    {zh:"喷火龙 / 喷火龍", ja:"リザードン"},
+    {zh:"杰尼龟 / 傑尼龜", ja:"ゼニガメ"},
+    {zh:"胖丁", ja:"プリン"},
+    {zh:"可达鸭 / 可達鴨", ja:"コダック"},
+    {zh:"喵喵", ja:"ニャース"},
+    {zh:"卡比兽 / 卡比獸", ja:"カビゴン"},
+    {zh:"伊布", ja:"イーヴイ"},
+  ]},
+  { id:"disney", title:"キャラ：ディズニー（迪士尼）", group:"character", groupLabel:"ディズニー", desc:"ディズニーランドは 迪士尼乐园", items:[
+    {zh:"达菲 / 達菲", ja:"ダッフィー"},
+    {zh:"雪莉玫", ja:"シェリーメイ"},
+    {zh:"杰拉多尼 / 傑拉多尼", ja:"ジェラトーニ"},
+    {zh:"星黛露", ja:"ステラルー"},
+    {zh:"可琦安", ja:"クッキー・アン"},
+    {zh:"奥乐米拉 / 奧樂米拉", ja:"オル・メル"},
+    {zh:"玲娜贝儿 / 玲娜貝兒", ja:"リーナ・ベル"},
+    {zh:"米奇", ja:"ミッキーマウス"},
+    {zh:"米妮", ja:"ミニーマウス"},
+    {zh:"唐老鸭 / 唐老鴨", ja:"ドナルドダック"},
+    {zh:"黛西 / 黛絲", ja:"デイジーダック"},
+    {zh:"高飞 / 高飛", ja:"グーフィー"},
+    {zh:"布鲁托 / 布魯托", ja:"プルート"},
+    {zh:"奇奇和蒂蒂", ja:"チップとデール"},
+    {zh:"史迪奇", ja:"スティッチ"},
+    {zh:"小熊维尼 / 小熊維尼", ja:"くまのプーさん"},
+    {zh:"大白", ja:"ベイマックス"},
+    {zh:"草莓熊", ja:"ロッツォ"},
+    {zh:"艾莎", ja:"エルサ"},
+    {zh:"安娜", ja:"アナ"},
+    {zh:"玛丽 / 瑪麗", ja:"マリー"},
+    {zh:"尼克·王尔德 / 尼克·王爾德", ja:"ニック・ワイルド"},
+    {zh:"朱迪·霍普斯", ja:"ジュディ・ホップス"},
+    {zh:"杰克（南瓜王） / 傑克（南瓜王）", ja:"ナイトメアビフォアクリスマスのジャック"},
+    {zh:"杰克·斯派罗 / 傑克·斯派羅", ja:"ジャック・スパロウ"},
+    {zh:"反派", ja:"ヴィランズ"},
+  ]},
+  { id:"hp", title:"キャラ：ハリーポッター（哈利·波特）", group:"character", groupLabel:"ハリーポッター", desc:"", items:[
+    {zh:"哈利·波特", ja:"ハリー・ポッター"},
+    {zh:"赫敏·格兰杰 / 赫敏·格蘭傑", ja:"ハーマイオニー・グレンジャー"},
+    {zh:"罗恩·韦斯莱 / 榮恩·衛斯理", ja:"ロン・ウィーズリー"},
+    {zh:"西司尔·斯内普 / 西司爾·斯內普", ja:"セブルス・スネイプ"},
+    {zh:"阿尔bus·邓布利多 / 阿不思·鄧不利多", ja:"アルバス・ダンブルドア"},
+    {zh:"小天狼星布莱克 / 天狼星·布萊克", ja:"シリウス・ブラック"},
+    {zh:"德拉科·马尔福 / 德拉科·馬爾福", ja:"ドラコ・マルフォイ"},
+    {zh:"卢娜·洛夫古德 / 露娜·羅古德", ja:"ルーナ・ラブグッド"},
+    {zh:"金妮·韦斯莱 / 金妮·衛斯理", ja:"ジニー・ウィーズリー"},
+    {zh:"多比", ja:"ドビー"},
+  ]},
+  { id:"iv", title:"キャラ：第五人格（Identity V）", group:"character", groupLabel:"第五人格", desc:"", items:[
+    {zh:"幸运儿 / 幸運兒", ja:"幸運児"},
+    {zh:"园丁 / 園丁", ja:"庭師（エマ・ウッズ）"},
+    {zh:"医生 / 醫生", ja:"医師（エマ・ウッズ / エミリー・ダイアー）"},
+    {zh:"律师 / 律師", ja:"弁護士（フレディ・ライリー）"},
+    {zh:"慈善家", ja:"泥棒（クリーチャー・ピアソン）"},
+    {zh:"厂长 / 廠長", ja:"復讐者（レオ）"},
+    {zh:"杰克 / 傑克", ja:"リッパー（ジャック）"},
+    {zh:"小丑", ja:"道化師（ジョーカー）"},
+    {zh:"鹿头 / 鹿頭", ja:"断罪狩人（ベイン）"},
+    {zh:"蜘蛛", ja:"結魂者（ヴィオレッタ）"},
+    {zh:"佣兵 / 傭兵", ja:"傭兵（ナワーブ・サベダー）"},
+    {zh:"空军 / 空軍", ja:"空軍（マーサ・ベハムフィール）"},
+    {zh:"机械师 / 機械師", ja:"機械技師（トレイシー・レズニック）"},
+    {zh:"盲女", ja:"心眼（ヘレナ・アダムス）"},
+    {zh:"祭司", ja:"祭司（フィオナ・ギルマン）"},
+    {zh:"调香师 / 調香師", ja:"調香師（ウィラ・ナイエル）"},
+    {zh:"先知", ja:"占い師（イライ・クラーク）"},
+    {zh:"入殓师 / 入殮師", ja:"納棺師（イソップ・カール）"},
+    {zh:"勘探员 / 勘探員", ja:"探鉱者（ノートン・キャンベル）"},
+    {zh:"咒术师 / 咒術師", ja:"呪術師（パトリシア・ドーヴァル）"},
+    {zh:"杂技演员 / 雜技演員", ja:"曲芸師（マイク・モートン）"},
+    {zh:"大副", ja:"一等航海士（ホセ・フーディン）"},
+    {zh:"大副", ja:"バーメイド（デミ・バーボン）"},
+    {zh:"邮差 / 郵差", ja:"ポストマン（ビクター・グラントツ）"},
+    {zh:"守墓人", ja:"墓守（アンドリュー・クレイス）"},
+    {zh:"囚徒", ja:"「囚人」（ルカ・バルサー）"},
+    {zh:"昆虫学者 / 昆蟲學者", ja:"昆虫学者（メリー・プリニウス）"},
+    {zh:"画家 / 畫家", ja:"画家（エドガー・ヴァルデン）"},
+    {zh:"击球手 / 擊球手", ja:"バッツマン（ガンンジ・グプタ）"},
+    {zh:"玩具商", ja:"玩具職人（アンネ・フォーリエ）"},
+    {zh:"患者", ja:"患者（エミール）"},
+    {zh:"\"心理学家\" / \"心理學家\"", ja:"「心理学者」（エイダ・メスマー）"},
+    {zh:"小说家 / 小說家", ja:"小説家（オルフェウス）"},
+    {zh:"\"小女孩\"", ja:"「少女」（アリス・デロッス）"},
+    {zh:"哭泣小丑", ja:"泣きピエロ（ジョーカー）"},
+    {zh:"教授", ja:"教授（ルキノ）"},
+    {zh:"作曲家", ja:"作曲家（フレデリック・クレイバーグ）"},
+    {zh:"记者 / 記者", ja:"記者（アリス・デロッス）"},
+    {zh:"飞行员 / 飛行員", ja:"航空エンジニア（チャールズ・ホルト）"},
+    {zh:"木偶师 / 木偶師", ja:"人形師（マティアス・チェルニン）"},
+    {zh:"红蝶 / 紅蝶", ja:"芸者（美智子）"},
+    {zh:"黄衣之主 / 黃衣之主", ja:"黄衣の王（ハスター）"},
+    {zh:"宿伞之魂 / 宿傘之魂", ja:"白黒無常（謝必安 / 范無咎）"},
+    {zh:"摄影师 / 攝影師", ja:"写真家（ジョゼフ）"},
+    {zh:"狂眼", ja:"狂眼（バルク）"},
+    {zh:"梦之女巫 / 夢之女巫", ja:"夢の魔女（イドゥラ）"},
+    {zh:"爱哭鬼 / 愛哭鬼", ja:"泣き虫（ロビー）"},
+    {zh:"杂货商 / 雜貨商", ja:"魔トカゲ（ルキノ）"},
+    {zh:"血女王", ja:"血の女王（マリー）"},
+    {zh:"雕刻家", ja:"彫刻師（ガラテア）"},
+  ]},
+  { id:"conan", title:"キャラ：名探偵コナン（名侦探柯南）", group:"character", groupLabel:"名探偵コナン", desc:"", items:[
+    {zh:"江户川柯南 / 江戶川柯南", ja:"江戸川コナン"},
+    {zh:"工藤新一", ja:"工藤新一"},
+    {zh:"毛利兰 / 毛利蘭", ja:"毛利蘭"},
+    {zh:"毛利小五郎", ja:"毛利小五郎"},
+    {zh:"阿笠博士", ja:"阿笠博士"},
+    {zh:"灰原哀", ja:"灰原哀（宮野志保）"},
+    {zh:"服部平次", ja:"服部平次"},
+    {zh:"远山和叶 / 遠山和葉", ja:"遠山和葉"},
+    {zh:"怪盗基德 / 怪盜基德", ja:"怪盗キッド（黒羽快斗）"},
+    {zh:"安室透", ja:"安室透（降谷零 / バーボン）"},
+    {zh:"赤井秀一", ja:"赤井秀一（ライ / 沖矢昴）"},
+    {zh:"琴酒", ja:"ジン"},
+    {zh:"伏特加", ja:"ウォッカ"},
+    {zh:"贝尔摩德 / 貝爾摩德", ja:"ベルモット"},
+    {zh:"苦艾酒", ja:"ベルモット（※台湾等の表記）"},
+    {zh:"波本", ja:"バーボン"},
+    {zh:"基尔 / 基爾", ja:"キール（水無怜奈）"},
+    {zh:"朗姆", ja:"ラム"},
+    {zh:"目暮十三", ja:"目暮十三"},
+    {zh:"高木涉", ja:"高木渉"},
+    {zh:"佐藤美和子", ja:"佐藤美和子"},
+    {zh:"白鸟任三郎 / 白鳥任三郎", ja:"白鳥任三郎"},
+    {zh:"千叶和伸 / 千葉和伸", ja:"千葉和伸"},
+    {zh:"宫本由美 / 宮本由美", ja:"宮本由美"},
+    {zh:"三池苗子", ja:"三池苗子"},
+    {zh:"黑田兵卫 / 黑田兵衛", ja:"黒田兵衛"},
+    {zh:"服部平藏", ja:"服部平蔵"},
+    {zh:"远山银司郎 / 遠山銀司郎", ja:"遠山銀司郎"},
+    {zh:"大泷悟郎 / 大瀧悟郎", ja:"大滝悟郎"},
+    {zh:"绫小路文麿 / 綾小路文麿", ja:"綾小路文麿"},
+    {zh:"吉田步美", ja:"吉田歩美"},
+    {zh:"圆谷光彦 / 圓谷光彥", ja:"円谷光彦"},
+    {zh:"小嶋元太", ja:"小嶋元太"},
+    {zh:"铃木园子 / 鈴木園子", ja:"鈴木園子"},
+    {zh:"京极真 / 京極真", ja:"京極真"},
+    {zh:"世良真纯 / 世良真純", ja:"世良真純"},
+    {zh:"玛丽·世良 / 瑪麗·世良", ja:"メアリー・世良"},
+    {zh:"羽田秀吉", ja:"羽田秀吉"},
+    {zh:"宮野明美", ja:"宮野明美"},
+    {zh:"妃英理", ja:"妃英理"},
+    {zh:"工藤优作 / 工藤優作", ja:"工藤優作"},
+    {zh:"工藤有希子", ja:"工藤有希子"},
+    {zh:"栗山绿 / 栗山綠", ja:"栗山緑"},
+    {zh:"榎本梓", ja:"榎本梓"},
+    {zh:"风见裕也 / 風見裕也", ja:"風見裕也"},
+    {zh:"诸伏景光 / 諸伏景光", ja:"諸伏景光（スコッチ）"},
+    {zh:"松田阵平 / 松田陣平", ja:"松田陣平"},
+    {zh:"萩原研二", ja:"萩原研二"},
+    {zh:"伊达航 / 伊達航", ja:"伊達航"},
+    {zh:"胁田兼则 / 脅田兼則", ja:"脇田兼則"},
+  ]},
+  { id:"ensemble", title:"キャラ：あんスタ（偶像梦幻祭）", group:"character", groupLabel:"あんスタ", desc:"", items:[
+    {zh:"明星昴流 / 明星昂流", ja:"明星スバル（Trickstar）"},
+    {zh:"冰鹰北斗 / 冰鷹北斗", ja:"氷鷹北斗（Trickstar）"},
+    {zh:"游木真 / 遊木真", ja:"遊木真（Trickstar）"},
+    {zh:"衣更真绪 / 衣更真緒", ja:"衣更真緒（Trickstar）"},
+    {zh:"天祥院英智", ja:"天祥院英智（fine）"},
+    {zh:"日日树涉 / 日日樹涉", ja:"日々樹渉（fine）"},
+    {zh:"姬宫桃李 / 姬宮桃李", ja:"姫宮桃李（fine）"},
+    {zh:"伏见弓弦 / 伏見弓弦", ja:"伏見弓弦（fine）"},
+    {zh:"朔间零 / 朔間零", ja:"朔間零（UNDEAD）"},
+    {zh:"羽风薫 / 羽風薰", ja:"羽風薫（UNDEAD）"},
+    {zh:"大神晃牙", ja:"大神晃牙（UNDEAD）"},
+    {zh:"乙狩阿多尼斯", ja:"乙狩アドニス（UNDEAD）"},
+    {zh:"月永雷欧 / 月永雷歐", ja:"月永レオ（Knights）"},
+    {zh:"濑名泉 / 瀨名泉", ja:"瀬名泉（Knights）"},
+    {zh:"朔间凛月 / 朔間凜月", ja:"朔間凛月（Knights）"},
+    {zh:"鸣上岚 / 鳴上嵐", ja:"鳴上嵐（Knights）"},
+    {zh:"朱樱司 / 朱櫻司", ja:"朱桜司（Knights）"},
+    {zh:"守泽千秋 / 守澤千秋", ja:"守沢千秋（流星隊）"},
+    {zh:"深海奏汰", ja:"深海奏汰（流星隊）"},
+    {zh:"南云铁虎 / 南雲鐵虎", ja:"南雲鉄虎（流星隊）"},
+    {zh:"高峯翠", ja:"高峯翠（流星隊）"},
+    {zh:"仙石忍", ja:"仙石忍（流星隊）"},
+    {zh:"仁兔成鸣 / 仁兔成鳴", ja:"仁兎なずな（Ra*bits）"},
+    {zh:"紫之创 / 紫之創", ja:"紫之創（Ra*bits）"},
+    {zh:"真白友也", ja:"真白友也（Ra*bits）"},
+    {zh:"天满光 / 天滿光", ja:"天満光（Ra*bits）"},
+    {zh:"葵日向", ja:"葵ひなた（2wink）"},
+    {zh:"葵裕太", ja:"葵ゆうた（2wink）"},
+    {zh:"莲巳敬人 / 蓮巳敬人", ja:"蓮巳敬人（紅月）"},
+    {zh:"鬼龙红郎 / 鬼龍紅郎", ja:"鬼龍紅郎（紅月）"},
+    {zh:"神崎飒马 / 神崎颯馬", ja:"神崎颯馬（紅月）"},
+    {zh:"斋宫宗 / 齋宮宗", ja:"斎宮宗（Valkyrie）"},
+    {zh:"影片美佳", ja:"影片みか（Valkyrie）"},
+    {zh:"逆先夏目", ja:"逆先夏目（Switch）"},
+    {zh:"青叶纺 / 青葉紡", ja:"青葉つむぎ（Switch）"},
+    {zh:"春川宙", ja:"春川宙（Switch）"},
+    {zh:"三毛缟斑 / 三毛縞斑", ja:"三毛縞斑（MaM / Double Face）"},
+    {zh:"乱凪砂 / 亂凪砂", ja:"乱凪砂（Eden）"},
+    {zh:"巴日和", ja:"巴日和（Eden）"},
+    {zh:"七种茨 / 七種茨", ja:"七種茨（Eden）"},
+    {zh:"涟纯 / 漣純", ja:"漣ジュン（Eden）"},
+    {zh:"天城一彩", ja:"天城一彩（ALKALOID）"},
+    {zh:"白鸟蓝良 / 白鳥藍良", ja:"白鳥藍良（ALKALOID）"},
+    {zh:"礼濑真宵 / 禮瀨真宵", ja:"礼瀬マヨイ（ALKALOID）"},
+    {zh:"风早巽 / 風早巽", ja:"風早巽（ALKALOID）"},
+    {zh:"天城燐音", ja:"天城燐音（Crazy:B）"},
+    {zh:"HImeru / HiMERU", ja:"HiMERU（Crazy:B）"},
+    {zh:"樱河琥珀 / 櫻河琥珀", ja:"桜河こはく（Crazy:B / Double Face）"},
+    {zh:"椎名丹童", ja:"椎名ニキ（Crazy:B）"},
+    {zh:"椚章臣", ja:"椚章臣（先生）"},
+    {zh:"佐贺美阵 / 佐賀美陣", ja:"佐賀美陣（先生）"},
+  ]},
+  { id:"genshin", title:"キャラ：原神（Genshin Impact）", group:"character", groupLabel:"原神", desc:"", items:[
+    {zh:"空", ja:"空（男主人公）"},
+    {zh:"荧 / 熒", ja:"蛍（女主人公）"},
+    {zh:"派蒙", ja:"パイモン"},
+    {zh:"钟离 / 鍾離", ja:"鍾離（しょうり）"},
+    {zh:"温迪 / 溫迪", ja:"ウェンティ"},
+    {zh:"雷电将军 / 雷電將軍", ja:"雷電将軍"},
+    {zh:"纳西妲 / 納西妲", ja:"ナヒーダ"},
+    {zh:"芙宁娜 / 芙寧娜", ja:"フリーナ"},
+    {zh:"玛薇卡 / 瑪薇卡", ja:"マーヴィカ"},
+    {zh:"枫原万叶 / 楓原萬葉", ja:"楓原万葉（かえではらかずは）"},
+    {zh:"神里绫华 / 神里綾華", ja:"神里綾華"},
+    {zh:"达达利亚 / 達達利亞", ja:"タルタリヤ"},
+    {zh:"魈", ja:"魈（しょう）"},
+    {zh:"胡桃", ja:"胡桃（フータオ）"},
+    {zh:"甘雨", ja:"甘雨（かんう）"},
+    {zh:"刻晴", ja:"刻晴（コクセイ）"},
+    {zh:"夜兰 / 夜蘭", ja:"イェラン"},
+    {zh:"行秋", ja:"行秋（ゆくあき）"},
+    {zh:"香菱", ja:"シャンリン"},
+    {zh:"班尼特", ja:"ベネット"},
+    {zh:"莫娜", ja:"モナ"},
+    {zh:"迪卢克 / 迪盧克", ja:"ディルック"},
+    {zh:"琴", ja:"ジン"},
+    {zh:"可莉", ja:"クレー"},
+    {zh:"阿贝多 / 阿貝多", ja:"アルベド"},
+    {zh:"优菈 / 優菈", ja:"エウルア"},
+    {zh:"八重神子", ja:"八重神子（やえみこ）"},
+    {zh:"珊瑚宫心海 / 珊瑚宮心海", ja:"珊瑚宮心海"},
+    {zh:"荒泷一斗 / 荒瀧一斗", ja:"荒瀧一斗"},
+    {zh:"宵宫 / 宵宮", ja:"宵宮（よいみや）"},
+    {zh:"神里绫人 / 神里綾人", ja:"神里綾人"},
+    {zh:"提纳里 / 提納里", ja:"ティナリ"},
+    {zh:"赛诺 / 賽諾", ja:"セノ"},
+    {zh:"艾尔海森 / 艾爾海森", ja:"アルハイゼン"},
+    {zh:"卡维 / 卡維", ja:"カーヴェ"},
+    {zh:"流浪者", ja:"放浪者"},
+    {zh:"那维莱特 / 那維萊特", ja:"ヌヴィレット"},
+    {zh:"莱欧斯利 / 萊歐斯利", ja:"リオセスリ"},
+    {zh:"林尼", ja:"リネ"},
+    {zh:"琳妮特", ja:"リネット"},
+    {zh:"菲米尼", ja:"フレミネ"},
+    {zh:"克洛琳德", ja:"クロリンデ"},
+    {zh:"娜维娅 / 娜維婭", ja:"ナビア"},
+    {zh:"阿蕾奇诺 / 阿蕾奇諾", ja:"アルレッキーノ（召使い）"},
+    {zh:"闲云 / 閑雲", ja:"閑雲（かんうん）"},
+    {zh:"基尼奇", ja:"キニチ"},
+    {zh:"玛拉妮 / 瑪拉妮", ja:"ムアラニ"},
+    {zh:"卡齐娜 / 卡齊娜", ja:"カチーナ"},
+    {zh:"茜格雯", ja:"シグウィン"},
+    {zh:"戴因斯雷布", ja:"ダインスレイヴ"},
+  ]},
+  { id:"community", title:"コミュニティ・表現のトーン", desc:"呼び方・スラング / 感情表現", items:[
+    {zh:"宝宝 / 寶寶", ja:"赤ちゃん", note:"我が子のように愛情を込めて呼ぶ"},
+    {zh:"老师 / 老師", ja:"先生（投稿者に対して）"},
+    {zh:"先生", ja:"男性の敬称・〜さん"},
+    {zh:"姐姐", ja:"女性の敬称・〜さん"},
+    {zh:"小（名前）", ja:"〜ちゃん・〜くん", note:"親しい間柄・年下に対して"},
+    {zh:"好看、可爱", ja:"きれい・見栄えが良い / 可愛い"},
+    {zh:"哭了、笑死了", ja:"泣いた / 面白すぎる・爆笑"},
+    {zh:"很、好", ja:"（とてもLv.1）"},
+    {zh:"挺", ja:"（けっこう・なかなかにLv.2）"},
+    {zh:"真、不错", ja:"（本当に/悪くない＝かなり良いLv.3）"},
+    {zh:"非常、特别", ja:"（非常に・特別に・超Lv.4）"},
+    {zh:"太、极其", ja:"（あまりにも・極めて・極度にLv.5）"},
+    {zh:"～死、要命", ja:"（死ぬほど〜Lv.6・誇張表現）"},
+  ]},
+  { id:"brand-goods", title:"コラボ先：雑貨系", group:"brand", groupLabel:"雑貨系", desc:"", items:[
+    {zh:"MINISO、名创", ja:"ミニソウ"},
+    {zh:"泡泡玛特、POPMART"},
+    {zh:"TOPTOY"},
+    {zh:"言仓 / 言倉"},
+    {zh:"娃鸟联萌 / 娃鳥聯萌"},
+    {zh:"卡宝文创 / 卡寶文創", ja:"カード系"},
+    {zh:"万代 / 萬代", ja:"バンダイ"},
+    {zh:"三丽鸥 / 三麗鷗", ja:"サンリオ"},
+    {zh:"阿里鱼 / 阿里魚", ja:"アリババグループのライセンス管理会社"},
+  ]},
+  { id:"brand-food", title:"コラボ先：ファストフード・レストラン", group:"brand", groupLabel:"ファストフード", desc:"", items:[
+    {zh:"麦当劳 / 麥當勞", ja:"マクドナルド"},
+    {zh:"肯德基", ja:"ケンタッキー"},
+    {zh:"必勝客", ja:"ピザハット"},
+    {zh:"汉堡王 / 漢堡王", ja:"バーガーキング"},
+    {zh:"塔斯汀", ja:"タスティン"},
+    {zh:"华莱士 / 華萊士", ja:"ワライス"},
+    {zh:"吉野家"},
+    {zh:"松屋"},
+    {zh:"食其家", ja:"すき家"},
+    {zh:"CoCo壹番屋", ja:"ココイチ"},
+    {zh:"寿司郎 / 壽司郎", ja:"スシロー"},
+    {zh:"海底捞 / 海底撈", ja:"火鍋屋"},
+  ]},
+  { id:"brand-cvs", title:"コラボ先：コンビニ", group:"brand", groupLabel:"コンビニ", desc:"", items:[
+    {zh:"7-11、711", ja:"セブンイレブン"},
+    {zh:"全家", ja:"ファミリーマート"},
+    {zh:"羅森", ja:"ローソン"},
+  ]},
+  { id:"brand-coffee", title:"コラボ先：コーヒーチェーン", group:"brand", groupLabel:"コーヒー", desc:"", items:[
+    {zh:"瑞幸咖啡、Luckin Coffee"},
+    {zh:"库迪咖啡、Cotti Coffee"},
+    {zh:"幸运咖、Lucky Cup"},
+    {zh:"挪瓦咖啡、NOWWA Coffee"},
+    {zh:"Manner Coffee、曼纳咖啡"},
+    {zh:"西西弗咖啡、Seesaw Coffee"},
+    {zh:"M Stand"},
+    {zh:"Grid Coffee"},
+    {zh:"星巴克", ja:"スターバックスコーヒー"},
+    {zh:"KCOFFEE", ja:"KFCが展開するコーヒーブランド"},
+    {zh:"瑞幸即享", ja:"瑞幸咖啡のスーパー・コンビニ版"},
+    {zh:"咖啡", ja:"コーヒー"},
+    {zh:"拿铁咖啡 / 拿鐵咖啡", ja:"カフェラテ"},
+  ]},
+  { id:"brand-tea", title:"コラボ先：ミルクティー・ジュース・ヨーグルト", group:"brand", groupLabel:"ミルクティー", desc:"", items:[
+    {zh:"蜜雪冰城、MIXUE"},
+    {zh:"霸王茶姬、CHAGEE"},
+    {zh:"爷爷不泡茶 / 爺爺不泡茶"},
+    {zh:"茶百道、Cha Bai Dao"},
+    {zh:"喜茶、HEYTEA"},
+    {zh:"奈雪的茶、Naixue"},
+    {zh:"茶顔悦色、Cha Yan Yue Se"},
+    {zh:"阿嬤手作、A Ma Handmade"},
+    {zh:"茉莉奶白、Molly Tea"},
+    {zh:"coco 都可"},
+    {zh:"柠季、Ningji"},
+    {zh:"茉酸奶、MORE YOGURT"},
+    {zh:"yee3"},
+    {zh:"沪上阿姨 / 滬上阿姨"},
+    {zh:"鹿角巷"},
+    {zh:"茶救星球"},
+    {zh:"东方墨兰 / 東方墨蘭"},
+    {zh:"初茶 CHUCHAT"},
+    {zh:"古茗"},
+    {zh:"奶茶", ja:"ミルクティ"},
+    {zh:"果汁", ja:"ジュース"},
+    {zh:"酸奶", ja:"ヨーグルト"},
+  ]},
+  { id:"brand-drink", title:"コラボ先：飲料メーカー", group:"brand", groupLabel:"飲料メーカー", desc:"", items:[
+    {zh:"雀巢", ja:"ネスレ"},
+    {zh:"可口可乐 / 可口可樂", ja:"コカ・コーラ"},
+    {zh:"芬达 / 芬達", ja:"ファンタ"},
+    {zh:"百事可乐 / 百事可樂", ja:"ペプシ・コーラ"},
+    {zh:"三得利", ja:"サントリー"},
+  ]},
+  { id:"brand-sweets", title:"コラボ先：スイーツ・アイス", group:"brand", groupLabel:"スイーツ", desc:"", items:[
+    {zh:"DQ、Daily Queen"},
+    {zh:"好利来、Holiland"},
+    {zh:"野人先生"},
+    {zh:"Heart", ja:"チョコレートブランド"},
+    {zh:"冰淇淋", ja:"アイスクリーム"},
+    {zh:"蛋糕", ja:"ケーキ"},
+    {zh:"巧克力", ja:"チョコレート"},
+  ]},
+  { id:"brand-fashion", title:"コラボ先：アパレル・コスメ", group:"brand", groupLabel:"アパレル・コスメ", desc:"", items:[
+    {zh:"优衣库、UT", ja:"ユニクロ"},
+    {zh:"ZARA"},
+    {zh:"润培 / 潤培", ja:"コスメ・雑貨"},
+    {zh:"皮可熊", ja:"コスメ・雑貨"},
+    {zh:"柏瑞美", ja:"コスメ・雑貨"},
+    {zh:"OLAY", ja:"コスメブランド"},
+    {zh:"MAC", ja:"コスメブランド"},
+    {zh:"BOXFUN", ja:"腕時計ブラインドボックス"},
+  ]},
+  { id:"brand-cafe", title:"コラボ先：コラボカフェ系", group:"brand", groupLabel:"コラボカフェ", desc:"", items:[
+    {zh:"animate cafe"},
+    {zh:"IPSTAR、星跡萌点"},
+    {zh:"次元波板糖、DIMENSION POPTOWN"},
+    {zh:"三月兽、March Monster"},
+    {zh:"HAPPY ZOO"},
+    {zh:"ORBcafe"},
+  ]},
 ];
 
-function searchUrl(keyword){
-  const kw = keyword.split(/[\/／、,・]/)[0].trim(); // 最初の中国語表記だけ使う
-  return "https://www.xiaohongshu.com/search_result?keyword=" + encodeURIComponent(kw) + "&source=web_search_result_notes";
+// ---- 大カテゴリ定義（縦幅を節約するため、キャラ／コラボ先ブランドをグループ化） ----
+const GROUPS = [
+  { id:"character", label:"🧸 キャラで探す", catIds:["ckw","sanrio","pokemon","disney","hp","iv","conan","ensemble","genshin"] },
+  { id:"brand", label:"🏬 コラボ先ブランドで探す", catIds:["brand-goods","brand-food","brand-cvs","brand-coffee","brand-tea","brand-drink","brand-sweets","brand-fashion","brand-cafe"] },
+  { id:"basic", label:"📖 基本ワード・用途で探す", catIds:["basic","store","reserve","new","verb","season","goods","region","community"] },
+];
+
+// ---- 簡体字 / 繁体字の表記切り替え ----
+// zhフィールドは "简体字 / 繁体字" の形式で持っているものが多い（例: "赫敏·格兰杰 / 赫敏·格蘭傑"）。
+// zhVariant が "trad" のときは "/" の後ろ側（繁体字）を優先的に使う。
+let zhVariant = "simp";
+
+function firstZh(zh){
+  const parts = zh.split("/").map(s=> s.trim()).filter(Boolean);
+  let chosen = parts[0] || zh;
+  if(zhVariant === "trad" && parts.length > 1) chosen = parts[1];
+  // 残りの区切り文字（全角スラッシュ・読点・カンマ・中点）でさらに1語目だけを取る
+  return chosen.split(/[／、,・]/)[0].trim();
 }
+
+// ---- 端末判定（PC/デスクトップかスマホか） ----
+function isMobileDevice(){
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+// ---- タップ時の検索処理 ----
+// PC(デスクトップブラウザ)では、これまで通り小紅書のWeb検索結果ページを直接開く。
+// スマホでは、Web版の検索結果ページが直接アクセスをブロックしてしまうため、
+// アプリを開く処理とキーワードの自動コピーを組み合わせ、
+// アプリが開いたら検索欄に貼り付けてもらう方式にする。
 function openSearch(keyword){
-  const url = searchUrl(keyword);
-  // window.open("_blank") is unreliable on mobile browsers (esp. in-app webviews) —
-  // a synthetic <a> click is treated as a trusted navigation more consistently.
-  const a = document.createElement("a");
-  a.href = url;
-  a.target = "_blank";
-  a.rel = "noopener noreferrer";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  if(!keyword) return;
+  const kw = firstZh(keyword);
+
+  if(!isMobileDevice()){
+    // PC版：ブラウザで直接検索結果を開く
+    const webUrl = "https://www.xiaohongshu.com/search_result?keyword=" + encodeURIComponent(kw) + "&source=web_search_result_notes";
+    const a = document.createElement("a");
+    a.href = webUrl;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return;
+  }
+
+  // スマホ版：アプリを開く＋キーワードをコピー
+  const universalLink = "https://oia.xiaohongshu.com/oia?deeplink=" + encodeURIComponent("xhsdiscover://home");
+
+  const goToApp = ()=>{
+    const a = document.createElement("a");
+    a.href = universalLink;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  navigator.clipboard.writeText(kw).then(()=>{
+    showToast("「" + kw + "」をコピーしました。アプリが開いたら検索欄に貼り付けてください");
+    setTimeout(goToApp, 700);
+  }).catch(()=>{
+    goToApp();
+  });
 }
 
 function copyText(text, chipEl){
-  navigator.clipboard.writeText(text).then(()=>{
+  const t = firstZh(text);
+  navigator.clipboard.writeText(t).then(()=>{
     chipEl.classList.add("copied");
-    showToast("コピーしました: " + text);
+    showToast("コピーしました: " + t);
     setTimeout(()=>chipEl.classList.remove("copied"), 900);
   }).catch(()=>{ showToast("コピーに失敗しました"); });
 }
@@ -731,190 +953,111 @@ function updateStickyOffsets(){
   document.documentElement.style.setProperty("--sticky-h", (headerH + searchBarH) + "px");
 }
 if(window.ResizeObserver){
-  const stickyObserver = new ResizeObserver(updateStickyOffsets);
-  stickyObserver.observe(headerEl);
-  stickyObserver.observe(searchBarEl);
+  const ro = new ResizeObserver(updateStickyOffsets);
+  ro.observe(headerEl); ro.observe(searchBarEl);
 } else {
   window.addEventListener("resize", updateStickyOffsets);
-  window.addEventListener("load", updateStickyOffsets);
 }
+window.addEventListener("load", updateStickyOffsets);
 updateStickyOffsets();
 
 const catContainer = document.getElementById("catContainer");
-const navLinks = document.getElementById("navLinks");
+const groupList = document.getElementById("groupList");
 const filterInput = document.getElementById("filterInput");
 const countBadge = document.getElementById("countBadge");
-const addPanel = document.getElementById("addPanel");
-const lockToggleBtn = document.getElementById("lockToggleBtn");
-const lockAgainBtn = document.getElementById("lockAgainBtn");
-const newCatSelect = document.getElementById("newCatSelect");
-const newCatTitleInput = document.getElementById("newCatTitleInput");
-const newZh = document.getElementById("newZh");
-const newJa = document.getElementById("newJa");
-const newTags = document.getElementById("newTags");
-const newNote = document.getElementById("newNote");
-const addKeywordBtn = document.getElementById("addKeywordBtn");
-const exportBtn = document.getElementById("exportBtn");
-const importFile = document.getElementById("importFile");
-const resetCustomBtn = document.getElementById("resetCustomBtn");
+const noResult = document.getElementById("noResult");
+const activeFilterChip = document.getElementById("activeFilterChip");
+const activeFilterLabel = document.getElementById("activeFilterLabel");
+const activeFilterClearBtn = document.getElementById("activeFilterClearBtn");
 const comboBar = document.getElementById("comboBar");
 const comboList = document.getElementById("comboList");
 const comboPreview = document.getElementById("comboPreview");
 const comboSearchBtn = document.getElementById("comboSearchBtn");
 const comboClearBtn = document.getElementById("comboClearBtn");
 
-let currentQuery = "";
-// 項目数が多いカテゴリを最初は10件だけ表示し、「すべて見る」で展開できるようにする
-const COLLAPSIBLE_CATEGORIES = new Set(["region", "ckw", "sanrio", "pokemon", "disney"]);
+const COLLAPSIBLE_CATEGORIES = new Set(["region","ckw","sanrio","pokemon","disney","hp","iv","conan","ensemble","genshin"]);
 const expandedCategories = {};
 let comboItems = [];
-const STORAGE_KEY = "rednoteCustomKeywords_v1";
-const UNLOCK_KEY = "rednoteEditUnlocked_v1";
-const USAGE_KEY = "rednoteCategoryUsage_v1";
+let currentQuery = "";      // フリーテキスト検索
+let currentCatFilter = null; // カテゴリ絞り込み（カテゴリIDまたは "group:xxx"）
+let forceShowAll = false; // 「すべて表示」ボタンで全カテゴリ・全キーワードを表示する
+let currentCatLabel = "";
 
-function loadCategoryUsage(){
-  try{ return JSON.parse(localStorage.getItem(USAGE_KEY)) || {}; }
-  catch(e){ return {}; }
+// ==== 複合キーワードビルダー（下部の🧩バー ＋ 上部の検索欄と連動） ====
+function syncFilterInputWithCombo(){
+  // 複合キーワードの中身を、上部の検索欄に「表示」はするが、
+  // これを絞り込み用のクエリとしては使わない（同じカテゴリの他候補も見せたいため）
+  // 表示は毎回その時点の簡体字/繁体字トグルに合わせて計算する
+  filterInput.value = comboItems.map(zh=> firstZh(zh)).join(" ");
+  forceShowAll = false;
+  // 手動でカテゴリ絞り込み中だった場合は解除する
+  if(currentCatFilter){
+    currentCatFilter = null;
+    currentCatLabel = "";
+    activeFilterChip.classList.remove("show");
+    document.querySelectorAll(".subcat-list button.active").forEach(b=> b.classList.remove("active"));
+  }
 }
-function saveCategoryUsage(){ localStorage.setItem(USAGE_KEY, JSON.stringify(categoryUsage)); }
-let categoryUsage = loadCategoryUsage();
-function bumpCategoryUsage(catId){
-  categoryUsage[catId] = (categoryUsage[catId] || 0) + 1;
-  saveCategoryUsage();
-}
-
-function loadCustom(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return { extraItems:{}, extraCategories:[] };
-    const parsed = JSON.parse(raw);
-    return { extraItems: parsed.extraItems || {}, extraCategories: parsed.extraCategories || [] };
-  }catch(e){ return { extraItems:{}, extraCategories:[] }; }
-}
-function saveCustom(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(custom)); }
-let custom = loadCustom();
-
-function uid(){ return "c" + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
-function firstZh(zh){ return zh.split(/[\/／、,・]/)[0].trim(); }
-
-// ---- 簡体字 / 繁体字の自動併記 ----
-// このキーワード集で使われている漢字に絞った簡体⇄繁体の対応表（完全な変換辞書ではありません）
-const SC_TC_PAIRS = [
-  ["万","萬"],["东","東"],["个","個"],["丽","麗"],["乌","烏"],["乐","樂"],["兽","獸"],["创","創"],
-  ["动","動"],["劳","勞"],["厅","廳"],["喷","噴"],["头","頭"],["宁","寧"],["宝","寶"],["寿","壽"],
-  ["尔","爾"],["岛","島"],["师","師"],["广","廣"],["庆","慶"],["库","庫"],["开","開"],["强","強"],
-  ["当","當"],["总","總"],["捞","撈"],["时","時"],["机","機"],["来","來"],["杰","傑"],["汇","匯"],
-  ["汉","漢"],["沪","滬"],["润","潤"],["灵","靈"],["爷","爺"],["狮","獅"],["种","種"],["纸","紙"],
-  ["线","線"],["罗","羅"],["联","聯"],["舰","艦"],["萨","薩"],["贝","貝"],["购","購"],["贴","貼"],
-  ["达","達"],["连","連"],["钢","鋼"],["铁","鐵"],["铠","鎧"],["长","長"],["闪","閃"],["问","問"],
-  ["间","間"],["阳","陽"],["面","麵"],["顿","頓"],["预","預"],["题","題"],["飞","飛"],["饭","飯"],
-  ["馒","饅"],["鱼","魚"],["鸟","鳥"],["鸥","鷗"],["鸭","鴨"],["鹅","鵝"],["麦","麥"],["龙","龍"],
-  ["龟","龜"],["订","訂"],["袜","襪"],["胜","勝"],["胶","膠"]
-];
-const S2T_MAP = {}, T2S_MAP = {};
-SC_TC_PAIRS.forEach(([s,t])=>{ S2T_MAP[s]=t; T2S_MAP[t]=s; });
-
-function mapChars(str, map){
-  return str.split("").map(ch=> map[ch] || ch).join("");
-}
-
-// 与えられた中国語に既知の簡体/繁体バリエーションがあれば {simplified, other} を返す
-function getVariant(zh){
-  const trad = mapChars(zh, S2T_MAP);
-  if(trad !== zh) return { simplified: zh, other: trad };
-  const simp = mapChars(zh, T2S_MAP);
-  if(simp !== zh) return { simplified: simp, other: zh };
-  return null;
-}
-
-// チップに表示する中国語テキストを作る（すでに「A / B」表記済みならそのまま）
-function computeZhDisplay(item, catId){
-  const zh = item.zh;
-  if(zh.includes("/") || zh.includes("／")) return zh;
-  if(catId === "region") return zh; // 地名は ja 欄に現地表記があるため対象外
-  const v = getVariant(zh);
-  if(v && v.other !== item.ja) return v.simplified + " / " + v.other;
-  return zh;
-}
-
-// ---- カテゴリ一覧から選んで作る複合キーワード ----
 function addToCombo(zh){
-  const z = firstZh(zh);
-  if(!comboItems.includes(z)) comboItems.push(z);
-  renderCombo();
+  // 表記トグルに関わらず一致させたいので、元の(簡体字 / 繁体字)文字列そのものを保持する
+  if(!comboItems.includes(zh)) comboItems.push(zh);
+  syncFilterInputWithCombo();
+  renderAll();
 }
-function removeFromCombo(z){
-  comboItems = comboItems.filter(x=> x!==z);
-  renderCombo();
+function removeFromCombo(zh){
+  comboItems = comboItems.filter(x=> x!==zh);
+  syncFilterInputWithCombo();
+  renderAll();
 }
 function clearCombo(){
   comboItems = [];
-  renderCombo();
+  syncFilterInputWithCombo();
+  renderAll();
 }
 function renderCombo(){
   comboBar.classList.toggle("show", comboItems.length > 0);
   comboList.innerHTML = "";
-  comboItems.forEach(z=>{
+  comboItems.forEach(zh=>{
+    const word = firstZh(zh);
     const pill = document.createElement("span");
     pill.className = "combo-pill";
     const label = document.createElement("span");
-    label.textContent = z;
+    label.textContent = word;
     pill.appendChild(label);
     const x = document.createElement("button");
     x.textContent = "×";
-    x.title = "この項目を外す";
-    x.addEventListener("click", ()=> removeFromCombo(z));
+    x.addEventListener("click", ()=> removeFromCombo(zh));
     pill.appendChild(x);
     comboList.appendChild(pill);
   });
-  comboPreview.textContent = comboItems.length ? comboItems.join("") : "—";
+  comboPreview.textContent = comboItems.length ? comboItems.map(zh=> firstZh(zh)).join("") : "—";
   document.querySelectorAll(".chip").forEach(chip=>{
-    const z = firstZh(chip.dataset.zhOriginal || "");
-    chip.classList.toggle("in-combo", comboItems.includes(z));
+    chip.classList.toggle("in-combo", comboItems.includes(chip.dataset.zhOriginal || ""));
   });
 }
-comboSearchBtn.addEventListener("click", ()=>{
-  if(comboItems.length) openSearch(comboItems.join(""));
-});
+comboSearchBtn.addEventListener("click", ()=>{ if(comboItems.length) openSearch(comboItems.map(zh=> firstZh(zh)).join("")); });
 comboClearBtn.addEventListener("click", clearCombo);
 
-function getAllCategories(){
-  const built = DATA.map(cat=>({
-    id: cat.id, title: cat.title, desc: cat.desc, isCustomCat:false,
-    items: [...cat.items, ...(custom.extraItems[cat.id] || [])]
-  }));
-  const extra = custom.extraCategories.map(cat=>({
-    id: cat.id, title: cat.title, desc: cat.desc || "ユーザー追加カテゴリ", isCustomCat:true,
-    items: cat.items || []
-  }));
-  const all = [...built, ...extra];
-  // よく使うカテゴリ（クリック・コピー・複合追加された回数が多い順）を前に出す
-  // Array#sort は安定ソートなので、使用回数が同じものは元の並び順を維持する
-  all.sort((a,b)=> (categoryUsage[b.id]||0) - (categoryUsage[a.id]||0));
-  return all;
-}
+// ==== カテゴリ一覧 ====
+function getAllCategories(){ return DATA; }
 
 function createChip(item, catId){
   const chip = document.createElement("div");
-  chip.className = "chip" + (item._cid ? " custom" : "");
+  chip.className = "chip";
   chip.dataset.zh = item.zh.toLowerCase();
   chip.dataset.ja = (item.ja||"").toLowerCase();
   chip.dataset.zhOriginal = item.zh;
-  if(comboItems.includes(firstZh(item.zh))) chip.classList.add("in-combo");
+  if(comboItems.includes(item.zh)) chip.classList.add("in-combo");
 
-  const zhDisplay = computeZhDisplay(item, catId) + (item.reading ? "（" + item.reading + "）" : "");
-
+  const zhDisplay = firstZh(item.zh) + (item.reading ? "（" + item.reading + "）" : "");
   if(item.ja){
-    // 日本語の意味を主役（太字・大きめ）・中国語（簡体/繁体併記＋読み）を補足に
     const ja = document.createElement("div");
     ja.className = "primary"; ja.textContent = item.ja;
     chip.appendChild(ja);
-
     const zh = document.createElement("div");
     zh.className = "secondary"; zh.textContent = zhDisplay;
     chip.appendChild(zh);
   } else {
-    // 日本語の意味がない場合は中国語だけを主役として表示
     const zh = document.createElement("div");
     zh.className = "primary"; zh.textContent = zhDisplay;
     chip.appendChild(zh);
@@ -934,309 +1077,343 @@ function createChip(item, catId){
     nt.className = "note"; nt.textContent = "※ " + item.note;
     chip.appendChild(nt);
   }
+
   const actions = document.createElement("div");
   actions.className = "chip-actions";
-
   const addBtn = document.createElement("button");
-  addBtn.className = "add-btn";
-  addBtn.textContent = "➕";
-  addBtn.title = "複合キーワードに追加";
-  addBtn.addEventListener("click", (e)=>{ e.stopPropagation(); addToCombo(item.zh); bumpCategoryUsage(catId); });
+  addBtn.className = "add-btn"; addBtn.textContent = "➕"; addBtn.title = "複合キーワードに追加";
+  addBtn.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    if(comboItems.includes(item.zh)){
+      removeFromCombo(item.zh);
+    } else {
+      addToCombo(item.zh);
+    }
+  });
   actions.appendChild(addBtn);
-
   const copyBtn = document.createElement("button");
-  copyBtn.className = "copy-btn";
-  copyBtn.textContent = "Copy";
-  copyBtn.title = "中国語をコピー";
-  copyBtn.addEventListener("click", (e)=>{ e.stopPropagation(); copyText(firstZh(item.zh), chip); bumpCategoryUsage(catId); });
+  copyBtn.className = "copy-btn"; copyBtn.textContent = "Copy"; copyBtn.title = "中国語をコピー";
+  copyBtn.addEventListener("click", (e)=>{ e.stopPropagation(); copyText(item.zh, chip); });
   actions.appendChild(copyBtn);
-
-  if(item._cid){
-    const delBtn = document.createElement("button");
-    delBtn.className = "del-btn";
-    delBtn.textContent = "🗑 削除";
-    delBtn.title = "この追加分を削除";
-    delBtn.addEventListener("click", (e)=>{ e.stopPropagation(); removeCustomItem(item._cid); });
-    actions.appendChild(delBtn);
-  }
-
   chip.appendChild(actions);
 
-  chip.addEventListener("click", ()=>{ openSearch(item.zh); bumpCategoryUsage(catId); });
+  chip.addEventListener("click", ()=>{ openSearch(item.zh); });
   return chip;
 }
 
-function removeCustomItem(cid){
-  Object.keys(custom.extraItems).forEach(catId=>{
-    custom.extraItems[catId] = custom.extraItems[catId].filter(it=> it._cid !== cid);
-  });
-  custom.extraCategories.forEach(cat=>{ cat.items = cat.items.filter(it=> it._cid !== cid); });
-  saveCustom(); renderAll(); showToast("削除しました");
-}
-
-function populateCatSelect(){
-  const cats = getAllCategories();
-  const prevValue = newCatSelect.value;
-  newCatSelect.innerHTML = "";
-  cats.forEach(cat=>{
-    const opt = document.createElement("option");
-    opt.value = cat.id; opt.textContent = cat.title;
-    newCatSelect.appendChild(opt);
-  });
-  const newOpt = document.createElement("option");
-  newOpt.value = "__new__"; newOpt.textContent = "＋ 新しいカテゴリを作成…";
-  newCatSelect.appendChild(newOpt);
-  if(prevValue && [...newCatSelect.options].some(o=>o.value===prevValue)){
-    newCatSelect.value = prevValue;
-  }
-  newCatTitleInput.style.display = newCatSelect.value === "__new__" ? "block" : "none";
+function matchesQuery(item, tokens){
+  if(!tokens.length) return true;
+  return tokens.some(tok=>
+    item.zh.toLowerCase().includes(tok) || (item.ja||"").toLowerCase().includes(tok)
+  );
 }
 
 function renderAll(){
   catContainer.innerHTML = "";
-  navLinks.innerHTML = "";
-  getAllCategories().forEach(cat=>{
+  let totalShown = 0;
+
+  const tokens = currentQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
+
+  // カテゴリも選ばれておらず、検索語も入力されていない初期状態では、
+  // 下の一覧は何も表示せず、案内メッセージだけを出す（縦幅を節約するため）
+  if(!currentCatFilter && tokens.length === 0 && comboItems.length === 0 && !forceShowAll){
+    noResult.style.display = "block";
+    noResult.textContent = "📂 上のカテゴリから選ぶか、キーワードを検索してください";
+    countBadge.textContent = "";
+    renderCombo();
+    return;
+  }
+  noResult.textContent = "該当するキーワードが見つかりません";
+
+  // 選択中のカテゴリがあれば、それを先頭に並べ替える（他のカテゴリも引き続きすべて表示する）
+  let categories = getAllCategories();
+  if(currentCatFilter){
+    const priority = [];
+    const rest = [];
+    categories.forEach(cat=>{
+      const isPriority = currentCatFilter.startsWith("group:")
+        ? cat.group === currentCatFilter.slice(6)
+        : cat.id === currentCatFilter;
+      (isPriority ? priority : rest).push(cat);
+    });
+    categories = [...priority, ...rest];
+  }
+
+  categories.forEach(cat=>{
+    const isPriorityCat = currentCatFilter && (
+      currentCatFilter.startsWith("group:") ? cat.group === currentCatFilter.slice(6) : cat.id === currentCatFilter
+    );
+    const hasComboItem = cat.items.some(it=> comboItems.includes(it.zh));
+
+    let matched;
+    if(tokens.length > 0){
+      // 手動でテキスト検索している場合は、通常どおりテキストに一致する項目だけに絞る
+      matched = cat.items.filter(it=> matchesQuery(it, tokens));
+    } else if(isPriorityCat || hasComboItem || forceShowAll){
+      // カテゴリ選択中、または➕で選んだ項目を含むカテゴリは、他の候補も含めて全件表示する
+      matched = cat.items;
+    } else {
+      // 関係のないカテゴリはまだ表示しない
+      matched = [];
+    }
+    if(matched.length === 0) return;
+
+    // ➕で選んだ項目（複合キーワードに入っているもの）を、同じカテゴリ内の先頭に並べ替える
+    // それ以外の項目は元の順序のまま、その後ろに続けて全て表示する
+    matched = [...matched].sort((a, b)=>{
+      const aSel = comboItems.includes(a.zh);
+      const bSel = comboItems.includes(b.zh);
+      if(aSel === bSel) return 0;
+      return aSel ? -1 : 1;
+    });
+
     const section = document.createElement("section");
-    section.className = "cat" + (cat.isCustomCat ? " custom-cat" : "");
+    section.className = "cat" + (isPriorityCat ? " priority-cat" : "");
     section.id = "cat-" + cat.id;
 
     const h2 = document.createElement("h2");
     h2.textContent = cat.title;
-    if(categoryUsage[cat.id]){
-      const badge = document.createElement("span");
-      badge.className = "usage-badge";
-      badge.textContent = "🔥 よく使う (" + categoryUsage[cat.id] + ")";
-      h2.appendChild(badge);
-    }
     section.appendChild(h2);
 
     if(cat.desc){
-      const d = document.createElement("p");
-      d.className = "desc"; d.textContent = cat.desc;
-      section.appendChild(d);
+      const desc = document.createElement("p");
+      desc.className = "desc"; desc.textContent = cat.desc;
+      section.appendChild(desc);
     }
-    const chips = document.createElement("div");
-    chips.className = "chips";
 
-    const COLLAPSE_LIMIT = 10;
-    const collapsible = COLLAPSIBLE_CATEGORIES.has(cat.id) && cat.items.length > COLLAPSE_LIMIT;
-    const isExpanded = !!expandedCategories[cat.id];
-    // 折りたたみ対象でも全件をDOMには出しておき、上位10件を超える分に extra-item を付けて
-    // CSS/JSで表示・非表示を切り替える（検索時は extra-item でもヒットすれば表示される）
-    cat.items.forEach((item, idx)=>{
-      const chip = createChip(item, cat.id);
-      if(collapsible && idx >= COLLAPSE_LIMIT) chip.classList.add("extra-item");
-      chips.appendChild(chip);
-    });
-    section.appendChild(chips);
-    section.classList.toggle("collapsed", collapsible && !isExpanded);
+    const chipsWrap = document.createElement("div");
+    chipsWrap.className = "chips";
 
-    if(collapsible){
+    const isCollapsible = COLLAPSIBLE_CATEGORIES.has(cat.id) && tokens.length === 0 && !currentCatFilter && !hasComboItem && !forceShowAll;
+    const showLimit = 10;
+    const isExpanded = expandedCategories[cat.id] || false;
+    const itemsToShow = (isCollapsible && !isExpanded) ? matched.slice(0, showLimit) : matched;
+
+    itemsToShow.forEach(item=> chipsWrap.appendChild(createChip(item, cat.id)));
+    section.appendChild(chipsWrap);
+    totalShown += itemsToShow.length;
+
+    if(isCollapsible && matched.length > showLimit){
       const toggleBtn = document.createElement("button");
       toggleBtn.className = "toggle-more-btn";
-      const hiddenCount = cat.items.length - COLLAPSE_LIMIT;
-      toggleBtn.textContent = isExpanded ? "▲ 折りたたむ" : "▼ すべて見る（+" + hiddenCount + "件）";
+      toggleBtn.textContent = isExpanded ? "▲ 閉じる" : `▼ すべて見る（残り${matched.length - showLimit}件）`;
       toggleBtn.addEventListener("click", ()=>{
-        const nowExpanded = !expandedCategories[cat.id];
-        expandedCategories[cat.id] = nowExpanded;
-        section.classList.toggle("collapsed", !nowExpanded);
-        toggleBtn.textContent = nowExpanded ? "▲ 折りたたむ" : "▼ すべて見る（+" + hiddenCount + "件）";
-        applyFilter(currentQuery);
-        if(!nowExpanded){
-          section.scrollIntoView({block:"start"});
-        }
+        expandedCategories[cat.id] = !isExpanded;
+        renderAll();
       });
       section.appendChild(toggleBtn);
     }
 
     catContainer.appendChild(section);
-
-    const a = document.createElement("a");
-    a.href = "#cat-" + cat.id;
-    a.textContent = cat.title.replace(/^[^\s]*\s?/, "").slice(0,14);
-    navLinks.appendChild(a);
   });
-  populateCatSelect();
-  applyFilter(currentQuery);
+
+  noResult.style.display = totalShown === 0 ? "block" : "none";
+  countBadge.textContent = totalShown > 0 ? `${totalShown}件のキーワードを表示中` : "";
+  renderCombo();
 }
 
-function applyFilter(q){
-  q = (q||"").trim().toLowerCase();
-  let visibleTotal = 0;
-  document.querySelectorAll("section.cat").forEach(section=>{
-    const isCollapsed = section.classList.contains("collapsed");
-    let visibleInSection = 0;
-    section.querySelectorAll(".chip").forEach(chip=>{
-      const match = !q || chip.dataset.zh.includes(q) || chip.dataset.ja.includes(q);
-      // 折りたたみ中でも検索語にヒットしていれば10件の枠を超えて表示する
-      const hiddenByCollapse = isCollapsed && chip.classList.contains("extra-item") && !q;
-      const finalHidden = !match || hiddenByCollapse;
-      chip.classList.toggle("hidden", finalHidden);
-      if(!finalHidden) visibleInSection++;
+// ==== 階層カテゴリナビ（大カテゴリ→小カテゴリ） ====
+function buildGroupNav(){
+  groupList.innerHTML = "";
+  GROUPS.forEach(group=>{
+    const wrap = document.createElement("div");
+
+    const btn = document.createElement("button");
+    btn.className = "group-btn";
+    btn.innerHTML = `<span>${group.label}</span><span class="arrow">▶</span>`;
+    wrap.appendChild(btn);
+
+    const subList = document.createElement("div");
+    subList.className = "subcat-list";
+
+    group.catIds.forEach(catId=>{
+      const cat = DATA.find(c=> c.id === catId);
+      if(!cat) return;
+      const subBtn = document.createElement("button");
+      subBtn.textContent = cat.groupLabel || cat.title;
+      subBtn.addEventListener("click", ()=>{
+        selectCategoryFilter(catId, cat.groupLabel || cat.title);
+        [...subList.children].forEach(b=> b.classList.remove("active"));
+        subBtn.classList.add("active");
+      });
+      subList.appendChild(subBtn);
     });
-    section.classList.toggle("hidden", visibleInSection===0);
-    visibleTotal += visibleInSection;
+
+    btn.addEventListener("click", ()=>{
+      const isOpen = subList.classList.toggle("open");
+      btn.classList.toggle("open", isOpen);
+    });
+
+    wrap.appendChild(subList);
+    groupList.appendChild(wrap);
   });
-  countBadge.textContent = q ? (visibleTotal + " 件ヒット") : "";
 }
 
-filterInput.addEventListener("input", ()=>{ currentQuery = filterInput.value; applyFilter(currentQuery); });
-
-document.querySelectorAll(".quick-tags button").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    filterInput.value = btn.dataset.q; currentQuery = btn.dataset.q;
-    applyFilter(currentQuery); filterInput.focus();
-    if(!btn.dataset.q){
-      showToast("すべて表示しました");
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
-  });
-});
-
-// ---- 編集モードのロック / アンロック（開発者用） ----
-function setEditVisible(visible){
-  addPanel.hidden = !visible;
-  lockToggleBtn.style.display = visible ? "none" : "inline-block";
-}
-function isUnlocked(){ return sessionStorage.getItem(UNLOCK_KEY) === "1"; }
-
-lockToggleBtn.addEventListener("click", ()=>{
-  const input = prompt("編集モードのパスコードを入力してください：");
-  if(input === null) return;
-  if(input === EDIT_PASSCODE){
-    sessionStorage.setItem(UNLOCK_KEY, "1");
-    setEditVisible(true);
-    showToast("編集モードを開きました");
-  } else {
-    showToast("パスコードが違います");
-  }
-});
-lockAgainBtn.addEventListener("click", ()=>{
-  sessionStorage.removeItem(UNLOCK_KEY);
-  setEditVisible(false);
-  showToast("ロックしました");
-});
-setEditVisible(isUnlocked());
-
-// ---- キーワード / カテゴリ追加フォーム ----
-newCatSelect.addEventListener("change", ()=>{
-  newCatTitleInput.style.display = newCatSelect.value === "__new__" ? "block" : "none";
-});
-
-addKeywordBtn.addEventListener("click", ()=>{
-  const zhVal = newZh.value.trim();
-  if(!zhVal){ showToast("中国語キーワードを入力してください"); newZh.focus(); return; }
-  const item = { zh: zhVal, _cid: uid() };
-  if(newJa.value.trim()) item.ja = newJa.value.trim();
-  if(newTags.value.trim()) item.tags = newTags.value.trim();
-  if(newNote.value.trim()) item.note = newNote.value.trim();
-
-  if(newCatSelect.value === "__new__"){
-    const title = newCatTitleInput.value.trim();
-    if(!title){ showToast("新しいカテゴリ名を入力してください"); newCatTitleInput.focus(); return; }
-    custom.extraCategories.push({ id: uid(), title: title, desc:"", items:[item] });
-  } else {
-    const catId = newCatSelect.value;
-    if(!custom.extraItems[catId]) custom.extraItems[catId] = [];
-    custom.extraItems[catId].push(item);
-  }
-  saveCustom();
-  newZh.value=""; newJa.value=""; newTags.value=""; newNote.value=""; newCatTitleInput.value="";
+// カテゴリ選択 → 検索欄に表示 ＋ 一覧を絞り込み
+function selectCategoryFilter(catId, label){
+  currentCatFilter = catId;
+  currentCatLabel = label;
+  forceShowAll = false;
+  filterInput.value = "";
+  currentQuery = "";
+  activeFilterLabel.textContent = "📂 " + label + " を先頭に表示中（他も表示されています）";
+  activeFilterChip.classList.add("show");
   renderAll();
-  showToast("追加しました: " + zhVal);
+  document.querySelector(".nav-box").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function clearCategoryFilter(){
+  currentCatFilter = null;
+  currentCatLabel = "";
+  activeFilterChip.classList.remove("show");
+  document.querySelectorAll(".subcat-list button.active").forEach(b=> b.classList.remove("active"));
+  renderAll();
+}
+
+activeFilterClearBtn.addEventListener("click", clearCategoryFilter);
+
+// ==== テキスト検索欄 ====
+filterInput.addEventListener("input", ()=>{
+  currentQuery = filterInput.value;
+  forceShowAll = false;
+  if(currentQuery.trim()){
+    // テキスト入力があればカテゴリ絞り込みは解除して自由検索を優先
+    if(currentCatFilter) clearCategoryFilter();
+  }
+  renderAll();
 });
 
-exportBtn.addEventListener("click", ()=>{
-  const blob = new Blob([JSON.stringify(custom, null, 2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = "rednote_keywords_custom_backup.json";
-  a.click(); URL.revokeObjectURL(url);
+// ---- クイックタグ（簡体字/繁体字トグルに連動して表記が切り替わる） ----
+const QUICK_TAGS = [
+  { zh:"联名 / 聯名", ja:"コラボ" },
+  { zh:"汇总 / 匯總", ja:"まとめ" },
+  { zh:"快闪店 / 快閃店", ja:"ポップアップ" },
+  { zh:"盲盒 / 盲盒", ja:"ブラインドボックス" },
+  { zh:"预约 / 預約", ja:"予約" },
+  { zh:"限定 / 限定", ja:"限定" },
+];
+
+function updatePlaceholder(){
+  filterInput.placeholder = zhVariant === "trad"
+    ? "キーワード検索（例：聯名・快閃店）"
+    : "キーワード検索（例：联名・快闪店）";
+}
+
+function renderQuickTags(){
+  const wrap = document.getElementById("quickTags");
+  wrap.innerHTML = "";
+  QUICK_TAGS.forEach(tag=>{
+    const btn = document.createElement("button");
+    const word = firstZh(tag.zh);
+    btn.textContent = word + "(" + tag.ja + ")";
+    btn.addEventListener("click", ()=>{
+      clearCategoryFilter();
+      comboItems = [];
+      forceShowAll = false;
+      filterInput.value = word;
+      currentQuery = word;
+      renderAll();
+    });
+    wrap.appendChild(btn);
+  });
+  const allBtn = document.createElement("button");
+  allBtn.textContent = forceShowAll ? "折りたたむ" : "すべて表示";
+  allBtn.addEventListener("click", ()=>{
+    // 選択中のカテゴリ・複合キーワードはそのままに、全表示⇄元の状態をトグルする
+    forceShowAll = !forceShowAll;
+    renderQuickTags();
+    renderAll();
+  });
+  wrap.appendChild(allBtn);
+}
+
+document.getElementById("topSearchBtn").addEventListener("click", ()=>{
+  // 複合キーワードが積まれている場合はそれを結合した語で検索する（スペースなしで連結）
+  if(comboItems.length){
+    openSearch(comboItems.map(zh=> firstZh(zh)).join(""));
+    return;
+  }
+  const q = filterInput.value.trim();
+  if(q) openSearch(q.replace(/\s+/g, ""));
+  else showToast("検索したいキーワードを入力してください");
 });
 
-importFile.addEventListener("change", (e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    try{
-      const imported = JSON.parse(reader.result);
-      Object.keys(imported.extraItems || {}).forEach(catId=>{
-        if(!custom.extraItems[catId]) custom.extraItems[catId] = [];
-        imported.extraItems[catId].forEach(it=>{ if(!it._cid) it._cid = uid(); custom.extraItems[catId].push(it); });
-      });
-      (imported.extraCategories || []).forEach(cat=>{
-        if(!custom.extraCategories.some(c=>c.id===cat.id)){
-          (cat.items||[]).forEach(it=>{ if(!it._cid) it._cid = uid(); });
-          custom.extraCategories.push(cat);
-        }
-      });
-      saveCustom(); renderAll(); showToast("インポートしました");
-    }catch(err){ showToast("インポートに失敗しました（JSON形式を確認してください）"); }
-    importFile.value = "";
-  };
-  reader.readAsText(file);
+document.getElementById("topResetBtn").addEventListener("click", ()=>{
+  filterInput.value = "";
+  currentQuery = "";
+  comboItems = [];
+  forceShowAll = false;
+  clearCategoryFilter();
+  renderAll();
 });
 
-resetCustomBtn.addEventListener("click", ()=>{
-  if(!confirm("追加したキーワード・カテゴリをすべて削除します。よろしいですか？")) return;
-  custom = { extraItems:{}, extraCategories:[] };
-  saveCustom(); renderAll(); showToast("追加分をすべて削除しました");
+document.getElementById("topCopyBtn").addEventListener("click", ()=>{
+  // 複合キーワードがあればそれを連結した語を、なければ検索欄の内容をコピーする
+  const text = comboItems.length
+    ? comboItems.map(zh=> firstZh(zh)).join("")
+    : filterInput.value.trim().replace(/\s+/g, "");
+  if(!text){
+    showToast("コピーしたいキーワードを入力してください");
+    return;
+  }
+  navigator.clipboard.writeText(text).then(()=>{
+    showToast("「" + text + "」をコピーしました");
+  }).catch(()=>{
+    showToast("コピーに失敗しました");
+  });
 });
 
-// コンボビルダー
+// ==== 複合キーワードビルダー（IP + 月 + 接尾辞） ====
 const bIp = document.getElementById("bIp");
 const bMonth = document.getElementById("bMonth");
 const bSuffix = document.getElementById("bSuffix");
 const bPreview = document.getElementById("bPreview");
 const bGo = document.getElementById("bGo");
 
-const blankOpt = document.createElement("option");
-blankOpt.value = ""; blankOpt.textContent = "（時期を指定しない）";
-bMonth.appendChild(blankOpt);
-
-const monthGroup = document.createElement("optgroup");
-monthGroup.label = "月";
 for(let m=1; m<=12; m++){
   const opt = document.createElement("option");
-  opt.value = m + "月"; opt.textContent = m + "月";
-  monthGroup.appendChild(opt);
+  opt.value = m + "月";
+  opt.textContent = m + "月";
+  bMonth.appendChild(opt);
 }
-bMonth.appendChild(monthGroup);
-
-const seasonGroup = document.createElement("optgroup");
-seasonGroup.label = "季節";
-[["春天","春"],["夏天","夏"],["秋天","秋"],["冬天","冬"]].forEach(([zh,ja])=>{
-  const opt = document.createElement("option");
-  opt.value = zh; opt.textContent = zh + "（" + ja + "）";
-  seasonGroup.appendChild(opt);
-});
-bMonth.appendChild(seasonGroup);
-
-const eventGroup = document.createElement("optgroup");
-eventGroup.label = "季節イベント";
-[["春节","旧正月"],["情人节","バレンタイン"],["七夕","七夕"],["中秋节","十五夜"],["万圣节","ハロウィン"],["圣诞节","クリスマス"]].forEach(([zh,ja])=>{
-  const opt = document.createElement("option");
-  opt.value = zh; opt.textContent = zh + "（" + ja + "）";
-  eventGroup.appendChild(opt);
-});
-bMonth.appendChild(eventGroup);
-
 const nowMonth = new Date().getMonth() + 1;
 bMonth.value = nowMonth + "月";
+const noneOpt = document.createElement("option");
+noneOpt.value = ""; noneOpt.textContent = "（指定しない）";
+bMonth.insertBefore(noneOpt, bMonth.firstChild);
+bMonth.value = nowMonth + "月";
 
-function updatePreview(){
-  const parts = [bIp.value, bMonth.value, bSuffix.value].filter(Boolean);
-  bPreview.textContent = parts.length ? parts.join("") : "—";
+function updateBuilderPreview(){
+  const combo = [bIp.value, bMonth.value, bSuffix.value].filter(Boolean).join("");
+  bPreview.textContent = combo || "—";
 }
-[bIp, bMonth, bSuffix].forEach(el=> el.addEventListener("change", updatePreview));
-updatePreview();
+[bIp, bMonth, bSuffix].forEach(el=> el.addEventListener("change", updateBuilderPreview));
+updateBuilderPreview();
 
 bGo.addEventListener("click", ()=>{
-  const kw = bPreview.textContent;
-  if(kw && kw !== "—") openSearch(kw);
+  const combo = [bIp.value, bMonth.value, bSuffix.value].filter(Boolean).join("");
+  if(combo) openSearch(combo);
+  else showToast("IP・月・種類のいずれかを選んでください");
 });
 
+document.querySelectorAll(".variant-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    zhVariant = btn.dataset.variant;
+    document.querySelectorAll(".variant-btn").forEach(b=> b.classList.toggle("active", b===btn));
+    renderQuickTags();
+    updatePlaceholder();
+    if(comboItems.length){
+      // 選択済みの複合キーワードがある場合は、検索欄の表示も新しい表記に更新する
+      filterInput.value = comboItems.map(zh=> firstZh(zh)).join(" ");
+    }
+    renderAll();
+  });
+});
+
+// ==== 初期描画 ====
+renderQuickTags();
+updatePlaceholder();
+buildGroupNav();
 renderAll();
 </script>
 </body>
