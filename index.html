@@ -224,28 +224,15 @@ footer{max-width:900px; margin:0 auto 30px; text-align:center; font-size:11px; c
   <div class="builder">
     <div class="builder-title">🛠 月別まとめを調べる</div>
     <div class="builder-row">
-      <select id="bIp">
-        <option value="">（指定しない）</option>
-        <option value="ckw">ckw（ちいかわ）</option>
-        <option value="宝可梦">宝可梦（ポケモン）</option>
-        <option value="三丽鸥">三丽鸥（サンリオ）</option>
-        <option value="迪士尼">迪士尼（ディズニー）</option>
-        <option value="哈利波特">哈利波特（ハリー・ポッター）</option>
-        <option value="第五人格">第五人格（第五人格）</option>
-        <option value="名侦探柯南">名侦探柯南（名探偵コナン）</option>
-        <option value="偶像梦幻祭">偶像梦幻祭（あんスタ）</option>
-        <option value="原神">原神（原神）</option>
-      </select>
+      <select id="bIp"></select>
       <select id="bMonth"></select>
-      <select id="bSuffix">
-        <option value="联名汇总">联名汇总（コラボまとめ）</option>
-        <option value="近期联名汇总">近期联名汇总（最近のまとめ）</option>
-        <option value="联名">联名（コラボ）</option>
-        <option value="新品">新品（新商品）</option>
-        <option value="合集">合集（まとめ）</option>
-      </select>
+      <select id="bSuffix"></select>
       <div class="preview" id="bPreview">—</div>
-      <button class="go" id="bGo">小紅書で検索</button>
+    </div>
+    <div class="builder-row" style="margin-top:8px;">
+      <button class="icon-btn search" id="bSearchBtn">検索</button>
+      <button class="icon-btn reset" id="bResetBtn">リセット</button>
+      <button class="icon-btn copy" id="bCopyBtn">コピー</button>
     </div>
   </div>
 
@@ -1545,7 +1532,50 @@ const bIp = document.getElementById("bIp");
 const bMonth = document.getElementById("bMonth");
 const bSuffix = document.getElementById("bSuffix");
 const bPreview = document.getElementById("bPreview");
-const bGo = document.getElementById("bGo");
+
+const IP_OPTIONS = [
+  { zh:"", ja:"（指定しない）" },
+  { zh:"ckw", ja:"ちいかわ" },
+  { zh:"宝可梦 / 寶可夢", ja:"ポケモン" },
+  { zh:"三丽鸥 / 三麗鷗", ja:"サンリオ" },
+  { zh:"迪士尼", ja:"ディズニー" },
+  { zh:"哈利波特", ja:"ハリー・ポッター" },
+  { zh:"第五人格", ja:"第五人格" },
+  { zh:"名侦探柯南 / 名偵探柯南", ja:"名探偵コナン" },
+  { zh:"偶像梦幻祭 / 偶像夢幻祭", ja:"あんスタ" },
+  { zh:"原神", ja:"原神" },
+];
+const SUFFIX_OPTIONS = [
+  { zh:"联名汇总 / 聯名匯總", ja:"コラボまとめ" },
+  { zh:"近期联名汇总 / 近期聯名匯總", ja:"最近のまとめ" },
+  { zh:"联名 / 聯名", ja:"コラボ" },
+  { zh:"新品", ja:"新商品" },
+  { zh:"合集", ja:"まとめ" },
+];
+
+function renderBuilderOptions(){
+  const prevIp = bIp.value, prevSuffix = bSuffix.value;
+  bIp.innerHTML = "";
+  IP_OPTIONS.forEach(opt=>{
+    const word = firstZh(opt.zh);
+    const el = document.createElement("option");
+    el.value = word;
+    el.textContent = word ? `${word}（${opt.ja}）` : opt.ja;
+    bIp.appendChild(el);
+  });
+  bSuffix.innerHTML = "";
+  SUFFIX_OPTIONS.forEach(opt=>{
+    const word = firstZh(opt.zh);
+    const el = document.createElement("option");
+    el.value = word;
+    el.textContent = `${word}（${opt.ja}）`;
+    bSuffix.appendChild(el);
+  });
+  // 表記トグルで選択中の値が変わっても、同じ項目を選び直す
+  if(prevIp !== undefined) bIp.value = prevIp || bIp.value;
+  if(prevSuffix !== undefined) bSuffix.value = prevSuffix || bSuffix.value;
+  updateBuilderPreview();
+}
 
 for(let m=1; m<=12; m++){
   const opt = document.createElement("option");
@@ -1565,12 +1595,32 @@ function updateBuilderPreview(){
   bPreview.textContent = combo || "—";
 }
 [bIp, bMonth, bSuffix].forEach(el=> el.addEventListener("change", updateBuilderPreview));
-updateBuilderPreview();
+renderBuilderOptions();
 
-bGo.addEventListener("click", ()=>{
+document.getElementById("bSearchBtn").addEventListener("click", ()=>{
   const combo = [bIp.value, bMonth.value, bSuffix.value].filter(Boolean).join("");
   if(combo) openSearch(combo);
   else showToast("IP・月・種類のいずれかを選んでください");
+});
+
+document.getElementById("bResetBtn").addEventListener("click", ()=>{
+  bIp.value = "";
+  bMonth.value = nowMonth + "月";
+  bSuffix.value = firstZh(SUFFIX_OPTIONS[0].zh);
+  updateBuilderPreview();
+});
+
+document.getElementById("bCopyBtn").addEventListener("click", ()=>{
+  const text = bPreview.textContent === "—" ? "" : bPreview.textContent;
+  if(!text){
+    showToast("コピーしたいキーワードを組み立ててください");
+    return;
+  }
+  navigator.clipboard.writeText(text).then(()=>{
+    showToast("「" + text + "」をコピーしました");
+  }).catch(()=>{
+    showToast("コピーに失敗しました");
+  });
 });
 
 document.querySelectorAll(".variant-btn").forEach(btn=>{
@@ -1579,6 +1629,7 @@ document.querySelectorAll(".variant-btn").forEach(btn=>{
     document.querySelectorAll(".variant-btn").forEach(b=> b.classList.toggle("active", b===btn));
     renderQuickTags();
     updatePlaceholder();
+    renderBuilderOptions();
     if(comboItems.length){
       // 選択済みの複合キーワードがある場合は、検索欄の表示も新しい表記に更新する
       filterInput.value = comboItems.map(key=> firstZh(comboKeyZh(key))).join(" ");
