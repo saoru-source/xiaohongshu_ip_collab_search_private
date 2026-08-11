@@ -33,7 +33,9 @@ header p{margin:2px 0 0; font-size:12px; opacity:.9;}
   position:sticky; top:var(--header-h); z-index:19; background:#fff; padding:12px 16px;
   border-bottom:1px solid var(--border); box-shadow:0 2px 6px rgba(0,0,0,.04);
 }
-.search-row{display:flex; gap:6px; max-width:900px; margin:0 auto;}
+.search-row{display:flex; flex-wrap:wrap; gap:6px; max-width:900px; margin:0 auto;}
+.search-row #filterInput{flex-basis:100%;}
+.search-row .icon-btn{flex:1 1 0;}
 #filterInput{
   flex:1; min-width:0; padding:11px 12px; font-size:15px; border:2px solid var(--border);
   border-radius:10px; outline:none; transition:border-color .15s;
@@ -51,6 +53,9 @@ header p{margin:2px 0 0; font-size:12px; opacity:.9;}
 .icon-btn.copy:active{background:var(--chip); color:var(--accent-dark);}
 .count-badge{
   font-size:11px; color:var(--sub); margin:6px auto 0; max-width:900px; padding:0 2px;
+}
+.translation-hint{
+  font-size:11px; color:var(--sub); margin:4px auto 0; max-width:900px; padding:0 2px; min-height:14px;
 }
 .variant-toggle{
   display:flex; align-items:center; gap:6px; max-width:900px; margin:6px auto 0; padding:0 2px;
@@ -206,6 +211,7 @@ footer{max-width:900px; margin:0 auto 30px; text-align:center; font-size:11px; c
     <button class="icon-btn reset" id="topResetBtn">リセット</button>
     <button class="icon-btn copy" id="topCopyBtn">コピー</button>
   </div>
+  <div class="translation-hint" id="translationHint"></div>
   <div class="count-badge" id="countBadge"></div>
   <div class="variant-toggle">
     <span class="variant-label">表記:</span>
@@ -216,7 +222,6 @@ footer{max-width:900px; margin:0 auto 30px; text-align:center; font-size:11px; c
     <span id="activeFilterLabel"></span>
     <button id="activeFilterClearBtn" title="絞り込み解除">×</button>
   </div>
-  <div class="quick-tags" id="quickTags"></div>
 </div>
 
 <div class="toolbar-extra">
@@ -442,6 +447,8 @@ const DATA = [
     {zh:"三亚 / 三亞", ja:"三亜", tags:"三丽鸥", province:"海南省"},
   ]},
   { id:"ckw", title:"キャラ：ちいかわ（ckw / 吉伊卡哇 / chiikawa）", group:"character", groupLabel:"ちいかわ", desc:"", items:[
+    {zh:"吉伊卡哇", ja:"ちいかわ"},
+    {zh:"ckw", ja:"ちいかわ"},
     {zh:"吉伊", ja:"ちいかわ", reading:"ジイ"},
     {zh:"小八", ja:"ハチワレ", reading:"シャオバー"},
     {zh:"乌萨奇 / 烏薩奇", ja:"うさぎ", reading:"ウーサーチー"},
@@ -459,6 +466,7 @@ const DATA = [
     {zh:"自嘲熊", ja:"ナガノくま", reading:"ツーチャオション"},
   ]},
   { id:"sanrio", title:"キャラ：サンリオ（三丽鸥）", group:"character", groupLabel:"サンリオ", desc:"", items:[
+    {zh:"三丽鸥", ja:"サンリオ"},
     {zh:"布丁狗", ja:"ポムポムプリン"},
     {zh:"大耳狗、玉桂狗", ja:"シナモロール"},
     {zh:"帕恰狗", ja:"ポチャッコ"},
@@ -478,7 +486,6 @@ const DATA = [
     {zh:"乌萨花 / 烏薩花", ja:"ウサハナ"},
     {zh:"暴躁小兽 / 暴躁小獸", ja:"がおぱわるぅ"},
     {zh:"可乐铃 / 可樂鈴", ja:"コロコロクリリン"},
-    {zh:"三丽鸥", ja:"サンリオ"},
     {zh:"蛋黄哥 / 蛋黃哥", ja:"ぐでたま"},
     {zh:"栗子奶油", ja:"マロンクリーム"},
     {zh:"糖果兔", ja:"シュガーバニーズ"},
@@ -552,6 +559,7 @@ const DATA = [
     {zh:"运动小熊 / 運動小熊", ja:"スポーティングベアーズ"},
   ]},
   { id:"pokemon", title:"キャラ：ポケモン（宝可梦）", group:"character", groupLabel:"ポケモン", desc:"", items:[
+    {zh:"宝可梦 / 寶可夢", ja:"ポケモン"},
     {zh:"皮卡丘", ja:"ピカチュウ"},
     {zh:"喷火龙 / 喷火龍", ja:"リザードン"},
     {zh:"杰尼龟 / 傑尼龜", ja:"ゼニガメ"},
@@ -674,6 +682,7 @@ const DATA = [
     {zh:"漫威", ja:"マーベル"},
   ]},
   { id:"hp", title:"キャラ：ハリーポッター（哈利·波特）", group:"character", groupLabel:"ハリーポッター", desc:"", items:[
+    {zh:"哈利波特", ja:"ハリーポッター"},
     {zh:"哈利·波特", ja:"ハリー・ポッター"},
     {zh:"赫敏·格兰杰 / 赫敏·格蘭傑", ja:"ハーマイオニー・グレンジャー"},
     {zh:"罗恩·韦斯莱 / 榮恩·衛斯理", ja:"ロン・ウィーズリー"},
@@ -686,6 +695,7 @@ const DATA = [
     {zh:"多比", ja:"ドビー"},
   ]},
   { id:"iv", title:"キャラ：第五人格（Identity V）", group:"character", groupLabel:"第五人格", desc:"", items:[
+    {zh:"第五人格", ja:"第五人格"},
     {zh:"幸运儿 / 幸運兒", ja:"幸運児"},
     {zh:"园丁 / 園丁", ja:"庭師（エマ・ウッズ）"},
     {zh:"医生 / 醫生", ja:"医師（エマ・ウッズ / エミリー・ダイアー）"},
@@ -738,6 +748,7 @@ const DATA = [
     {zh:"雕刻家", ja:"彫刻師（ガラテア）"},
   ]},
   { id:"conan", title:"キャラ：名探偵コナン（名侦探柯南）", group:"character", groupLabel:"名探偵コナン", desc:"", items:[
+    {zh:"名侦探柯南", ja:"名探偵コナン"},
     {zh:"江户川柯南 / 江戶川柯南", ja:"江戸川コナン"},
     {zh:"工藤新一", ja:"工藤新一"},
     {zh:"毛利兰 / 毛利蘭", ja:"毛利蘭"},
@@ -790,6 +801,7 @@ const DATA = [
     {zh:"胁田兼则 / 脅田兼則", ja:"脇田兼則"},
   ]},
   { id:"ensemble", title:"キャラ：あんスタ（偶像梦幻祭）", group:"character", groupLabel:"あんスタ", desc:"", items:[
+    {zh:"偶像梦幻祭 / 偶像夢幻祭", ja:"あんスタ"},
     {zh:"明星昴流 / 明星昂流", ja:"明星スバル（Trickstar）"},
     {zh:"冰鹰北斗 / 冰鷹北斗", ja:"氷鷹北斗（Trickstar）"},
     {zh:"游木真 / 遊木真", ja:"遊木真（Trickstar）"},
@@ -1262,11 +1274,49 @@ function matchesQuery(item, tokens){
   );
 }
 
+// ---- 検索欄の直下に出す「日本語訳ヒント」用: zh(中国語)→ja(日本語)の逆引きマップ ----
+function buildZhToJaMap(){
+  const map = new Map();
+  DATA.forEach(cat=> cat.items.forEach(item=>{
+    if(!item.ja) return;
+    const candidates = item.zh.split("/").flatMap(s=> s.split("、")).map(s=> s.trim().toLowerCase()).filter(Boolean);
+    candidates.forEach(c=>{ if(!map.has(c)) map.set(c, item.ja); });
+  }));
+  return map;
+}
+const ZH_TO_JA = buildZhToJaMap();
+
+function updateTranslationHint(){
+  const hintEl = document.getElementById("translationHint");
+  if(!hintEl) return;
+  let translations = [];
+  if(comboItems.length){
+    comboItems.forEach(key=>{
+      const word = firstZh(comboKeyZh(key)).toLowerCase();
+      const ja = ZH_TO_JA.get(word);
+      if(ja && !translations.includes(ja)) translations.push(ja);
+    });
+  } else {
+    const tokens = filterInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    tokens.forEach(tok=>{
+      let ja = ZH_TO_JA.get(tok);
+      if(!ja){
+        for(const [k, v] of ZH_TO_JA){
+          if(k.includes(tok)){ ja = v; break; }
+        }
+      }
+      if(ja && !translations.includes(ja)) translations.push(ja);
+    });
+  }
+  hintEl.textContent = translations.length ? "🇯🇵 " + translations.slice(0, 6).join("・") : "";
+}
+
 function renderAll(){
   catContainer.innerHTML = "";
   let totalShown = 0;
 
   const tokens = currentQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  updateTranslationHint();
 
   // カテゴリも選ばれておらず、検索語も入力されていない初期状態では、
   // 下の一覧は何も表示せず、案内メッセージだけを出す（縦幅を節約するため）
@@ -1447,48 +1497,10 @@ filterInput.addEventListener("input", ()=>{
   renderAll();
 });
 
-// ---- クイックタグ（簡体字/繁体字トグルに連動して表記が切り替わる） ----
-const QUICK_TAGS = [
-  { zh:"联名 / 聯名", ja:"コラボ" },
-  { zh:"汇总 / 匯總", ja:"まとめ" },
-  { zh:"快闪店 / 快閃店", ja:"ポップアップ" },
-  { zh:"盲盒 / 盲盒", ja:"ブラインドボックス" },
-  { zh:"预约 / 預約", ja:"予約" },
-  { zh:"限定 / 限定", ja:"限定" },
-];
-
 function updatePlaceholder(){
   filterInput.placeholder = zhVariant === "trad"
     ? "キーワード検索（例：聯名・快閃店）"
     : "キーワード検索（例：联名・快闪店）";
-}
-
-function renderQuickTags(){
-  const wrap = document.getElementById("quickTags");
-  wrap.innerHTML = "";
-  QUICK_TAGS.forEach(tag=>{
-    const btn = document.createElement("button");
-    const word = firstZh(tag.zh);
-    btn.textContent = word + "(" + tag.ja + ")";
-    btn.addEventListener("click", ()=>{
-      clearCategoryFilter();
-      comboItems = [];
-      forceShowAll = false;
-      filterInput.value = word;
-      currentQuery = word;
-      renderAll();
-    });
-    wrap.appendChild(btn);
-  });
-  const allBtn = document.createElement("button");
-  allBtn.textContent = forceShowAll ? "折りたたむ" : "すべて表示";
-  allBtn.addEventListener("click", ()=>{
-    // 選択中のカテゴリ・複合キーワードはそのままに、全表示⇄元の状態をトグルする
-    forceShowAll = !forceShowAll;
-    renderQuickTags();
-    renderAll();
-  });
-  wrap.appendChild(allBtn);
 }
 
 document.getElementById("topSearchBtn").addEventListener("click", ()=>{
@@ -1534,7 +1546,7 @@ const bSuffix = document.getElementById("bSuffix");
 const bPreview = document.getElementById("bPreview");
 
 const IP_OPTIONS = [
-  { zh:"", ja:"（指定しない）" },
+  { zh:"", ja:"指定なし" },
   { zh:"ckw", ja:"ちいかわ" },
   { zh:"宝可梦 / 寶可夢", ja:"ポケモン" },
   { zh:"三丽鸥 / 三麗鷗", ja:"サンリオ" },
@@ -1586,7 +1598,7 @@ for(let m=1; m<=12; m++){
 const nowMonth = new Date().getMonth() + 1;
 bMonth.value = nowMonth + "月";
 const noneOpt = document.createElement("option");
-noneOpt.value = ""; noneOpt.textContent = "（指定しない）";
+noneOpt.value = ""; noneOpt.textContent = "指定なし";
 bMonth.insertBefore(noneOpt, bMonth.firstChild);
 bMonth.value = nowMonth + "月";
 
@@ -1627,7 +1639,6 @@ document.querySelectorAll(".variant-btn").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     zhVariant = btn.dataset.variant;
     document.querySelectorAll(".variant-btn").forEach(b=> b.classList.toggle("active", b===btn));
-    renderQuickTags();
     updatePlaceholder();
     renderBuilderOptions();
     if(comboItems.length){
@@ -1639,7 +1650,6 @@ document.querySelectorAll(".variant-btn").forEach(btn=>{
 });
 
 // ==== 初期描画 ====
-renderQuickTags();
 updatePlaceholder();
 buildGroupNav();
 renderAll();
