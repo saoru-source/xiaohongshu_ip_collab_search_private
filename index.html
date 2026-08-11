@@ -69,7 +69,7 @@ header p{margin:2px 0 0; font-size:13px; opacity:.9;}
 .active-filter-chip{
   display:none; align-items:center; gap:6px; max-width:900px; margin:8px auto 0;
   background:#ffe9c2; border:1px solid #f0b95a; color:#7a5200; font-size:13px; font-weight:700;
-  padding:6px 10px; border-radius:999px; width:fit-content;
+  padding:6px 10px; border-radius:14px; width:fit-content; line-height:1.4;
 }
 .active-filter-chip.show{display:inline-flex;}
 .active-filter-chip button{border:none; background:none; color:#7a5200; font-weight:700; cursor:pointer; font-size:14px; line-height:1;}
@@ -150,8 +150,17 @@ section.cat{
   padding:14px 16px; margin-bottom:14px; scroll-margin-top:calc(var(--sticky-h) + 12px);
 }
 section.cat h2{
-  font-size:15px; margin:0 0 4px; color:var(--accent-dark); display:flex; align-items:center; gap:6px;
+  font-size:15px; margin:0; color:var(--accent-dark); display:flex; align-items:center; gap:6px;
 }
+.cat-header-row{
+  display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0 0 4px;
+}
+.collapse-toggle-btn{
+  flex:0 0 auto; font-size:12px; font-weight:700; color:var(--accent-dark);
+  background:var(--chip); border:1px solid var(--border); border-radius:999px;
+  padding:5px 12px; cursor:pointer; white-space:nowrap;
+}
+.collapse-toggle-btn:hover{background:var(--chip-hover);}
 section.cat .desc{font-size:13px; color:var(--sub); margin:0 0 10px;}
 .chips{display:flex; flex-wrap:wrap; gap:8px;}
 .chip{
@@ -200,7 +209,7 @@ footer{max-width:900px; margin:0 auto 30px; text-align:center; font-size:12px; c
 <body>
 
 <header>
-<h1>🔎 小紅書(RED) IPコラボ検索キーワード集
+<h1>🔎 小紅書(RED) 検索キーワード集
   </h1>
 </header>
 
@@ -1278,9 +1287,11 @@ function matchesQuery(item, tokens){
 function buildZhToJaMap(){
   const map = new Map();
   DATA.forEach(cat=> cat.items.forEach(item=>{
-    if(!item.ja) return;
+    // 日本語訳がない項目（コラボ先ブランド名など）は、代わりに簡体字自体を表示する
+    const simp = item.zh.split("/")[0].split("、")[0].trim();
+    const fallback = item.ja || simp;
     const candidates = item.zh.split("/").flatMap(s=> s.split("、")).map(s=> s.trim().toLowerCase()).filter(Boolean);
-    candidates.forEach(c=>{ if(!map.has(c)) map.set(c, item.ja); });
+    candidates.forEach(c=>{ if(!map.has(c)) map.set(c, fallback); });
   }));
   return map;
 }
@@ -1311,9 +1322,12 @@ function updateTranslationHint(){
   hintEl.textContent = translations.length ? "🇯🇵 " + translations.slice(0, 6).join("・") : "";
 }
 
+let sectionCollapsed = {}; // カテゴリ全体を最小化（ヘッダーだけ）表示するための状態
+
 function renderAll(){
   catContainer.innerHTML = "";
   let totalShown = 0;
+  let sectionsRendered = 0;
 
   const tokens = currentQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
   updateTranslationHint();
@@ -1366,13 +1380,43 @@ function renderAll(){
       return aSel ? -1 : 1;
     });
 
+    sectionsRendered++;
+
     const section = document.createElement("section");
     section.className = "cat" + (isPriorityCat ? " priority-cat" : "");
     section.id = "cat-" + cat.id;
 
+    const isFullyCollapsed = !!sectionCollapsed[cat.id];
+
+    const headerRow = document.createElement("div");
+    headerRow.className = "cat-header-row";
     const h2 = document.createElement("h2");
     h2.textContent = cat.title;
-    section.appendChild(h2);
+    headerRow.appendChild(h2);
+
+    if(isFullyCollapsed){
+      const expandBtn = document.createElement("button");
+      expandBtn.className = "collapse-toggle-btn";
+      expandBtn.textContent = `▼ すべて見る（残り${matched.length}件）`;
+      expandBtn.addEventListener("click", ()=>{
+        sectionCollapsed[cat.id] = false;
+        renderAll();
+      });
+      headerRow.appendChild(expandBtn);
+      section.appendChild(headerRow);
+      catContainer.appendChild(section);
+      return;
+    } else {
+      const collapseBtn = document.createElement("button");
+      collapseBtn.className = "collapse-toggle-btn";
+      collapseBtn.textContent = "折りたたむ▲";
+      collapseBtn.addEventListener("click", ()=>{
+        sectionCollapsed[cat.id] = true;
+        renderAll();
+      });
+      headerRow.appendChild(collapseBtn);
+    }
+    section.appendChild(headerRow);
 
     if(cat.desc){
       const desc = document.createElement("p");
@@ -1406,7 +1450,7 @@ function renderAll(){
     catContainer.appendChild(section);
   });
 
-  noResult.style.display = totalShown === 0 ? "block" : "none";
+  noResult.style.display = sectionsRendered === 0 ? "block" : "none";
   countBadge.textContent = totalShown > 0 ? `${totalShown}件のキーワードを表示中` : "";
   renderCombo();
 }
@@ -1457,7 +1501,7 @@ function updateActiveFilterDisplay(){
     const cat = DATA.find(c=> c.id === id);
     return cat ? (cat.groupLabel || cat.title) : id;
   });
-  activeFilterLabel.textContent = "📂 " + labels.join("、") + " を先頭に表示中（他も表示されています）";
+  activeFilterLabel.innerHTML = "📂 " + labels.join("、") + " を先頭に表示中<br>（他も表示されています）";
   activeFilterChip.classList.add("show");
 }
 
