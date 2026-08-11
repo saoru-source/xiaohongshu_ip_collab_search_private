@@ -222,7 +222,7 @@ footer{max-width:900px; margin:0 auto 30px; text-align:center; font-size:11px; c
 <div class="toolbar-extra">
   <p class="combo-hint">💡 各キーワードの「➕」で下の🧩複合キーワード欄に追加できます</p>
   <div class="builder">
-    <div class="builder-title">🛠 月別まとめを調べる（例: ckw + 8月 + 联名汇总）</div>
+    <div class="builder-title">🛠 月別まとめを調べる</div>
     <div class="builder-row">
       <select id="bIp">
         <option value="">（指定しない）</option>
@@ -230,6 +230,11 @@ footer{max-width:900px; margin:0 auto 30px; text-align:center; font-size:11px; c
         <option value="宝可梦">宝可梦（ポケモン）</option>
         <option value="三丽鸥">三丽鸥（サンリオ）</option>
         <option value="迪士尼">迪士尼（ディズニー）</option>
+        <option value="哈利波特">哈利波特（ハリー・ポッター）</option>
+        <option value="第五人格">第五人格（第五人格）</option>
+        <option value="名侦探柯南">名侦探柯南（名探偵コナン）</option>
+        <option value="偶像梦幻祭">偶像梦幻祭（あんスタ）</option>
+        <option value="原神">原神（原神）</option>
       </select>
       <select id="bMonth"></select>
       <select id="bSuffix">
@@ -357,7 +362,7 @@ const DATA = [
     {zh:"万圣节 / 萬聖節", ja:"ハロウィン"},
     {zh:"圣诞节 / 聖誕節", ja:"クリスマス"},
   ]},
-  { id:"goods", title:"グッズ・エンタメ", desc:"", items:[
+  { id:"entertainment", title:"エンタメ", desc:"", items:[
     {zh:"大电影、电影", ja:"劇場版 / 映画"},
     {zh:"角色", ja:"キャラ"},
     {zh:"动漫、二次元", ja:"漫画・アニメ・ゲーム・ラノベ"},
@@ -366,6 +371,8 @@ const DATA = [
     {zh:"景品娃娃机 / 景品娃娃機", ja:"クレーンゲーム"},
     {zh:"景品", ja:"プライズ景品"},
     {zh:"盲盒", ja:"ブラインドボックス"},
+  ]},
+  { id:"goods", title:"グッズ", desc:"", items:[
     {zh:"徽章、吧唧", ja:"缶バッジ", note:"吧唧はスラング表現"},
     {zh:"色纸 / 色紙", ja:"色紙"},
     {zh:"立牌", ja:"アクリルスタンド"},
@@ -480,6 +487,82 @@ const DATA = [
     {zh:"甜美钢琴 / 甜美鋼琴", ja:"マイスウィートピアノ"},
     {zh:"大眼蛙", ja:"けろけろけろっぴ"},
     {zh:"花丸幽灵 / 花丸幽靈", ja:"はなまるおばけ"},
+    {zh:"威丝姆露 / 威絲姆露", ja:"ウィッシュミーメル"},
+    {zh:"乌萨花 / 烏薩花", ja:"ウサハナ"},
+    {zh:"暴躁小兽 / 暴躁小獸", ja:"がおぱわるぅ"},
+    {zh:"可乐铃 / 可樂鈴", ja:"コロコロクリリン"},
+    {zh:"三丽鸥", ja:"サンリオ"},
+    {zh:"蛋黄哥 / 蛋黃哥", ja:"ぐでたま"},
+    {zh:"栗子奶油", ja:"マロンクリーム"},
+    {zh:"糖果兔", ja:"シュガーバニーズ"},
+    {zh:"切身酱 / 切身醬", ja:"KIRIMIちゃん."},
+    {zh:"丸萌日常", ja:"まるもふびより"},
+    {zh:"丹尼尔 / 丹尼爾", ja:"ディアダニエル"},
+    {zh:"凯蒂猫的宠物猫 / 凱蒂貓的寵物貓", ja:"チャーミーキティ"},
+    {zh:"咪咪", ja:"ハローミミィ"},
+    {zh:"喵音喵妞", ja:"ニャニィニュニェニョン"},
+    {zh:"大口仔", ja:"みんなのたあ坊"},
+    {zh:"蝴蝶结梦梦 / 蝴蝶結夢夢", ja:"ぼんぼんりぼん", note:"別名: 宝石宠物"},
+    {zh:"歌舞伎猫太郎 / 歌舞伎貓太郎", ja:"かぶきにゃんたろう"},
+    {zh:"巧克力猫 / 巧克力貓", ja:"チョコキャット"},
+    {zh:"小泰迪", ja:"タイニーチャム"},
+    {zh:"SHOW BY ROCK!!", ja:"SHOW BY ROCK!!"},
+    {zh:"极地小点 / 極地小點", ja:"ぽっきょくてん"},
+    {zh:"宝石宠物 / 寶石寵物", ja:"ジュエルペット"},
+    {zh:"酷洛与罗曼 / 酷洛與羅曼", ja:"ルロロマニック"},
+    {zh:"棉花糖般的软绵绵猫 / 棉花糖般的軟綿綿貓", ja:"マシュマロみたいなふわふわにゃんこ"},
+    {zh:"拉拉队查姆 / 啦啦隊查姆", ja:"チアリーチャム"},
+    {zh:"帕蒂与吉米 / 帕蒂與吉米", ja:"パティ＆ジミー"},
+    {zh:"猴子蒙吉", ja:"おさるのもんきち"},
+    {zh:"雷电咚咚 / 雷電咚咚", ja:"ゴロピカドン"},
+    {zh:"贴贴小外星人 / 貼貼小外星人", ja:"ぺたぺたみにりあん"},
+    {zh:"小森林朋友", ja:"リトルフォレストフェロォ"},
+    {zh:"冲吧烈子 / 衝吧烈子", ja:"アグレッシブ烈子"},
+    {zh:"yoshikitty", ja:"yoshikitty"},
+    {zh:"paupipo", ja:"パウピポ"},
+    {zh:"拍拍佩皮", ja:"パタパタペッピー"},
+    {zh:"草莓之王", ja:"いちごの王さま"},
+    {zh:"巴迪艾迪", ja:"バディエディ"},
+    {zh:"魔法双子彗星 / 魔法雙子彗星", ja:"マジカルツインコメッツ"},
+    {zh:"齿轮先生 / 齒輪先生", ja:"歯ぐるまんすたいる"},
+    {zh:"梦幻莉露 / 夢幻莉露", ja:"ミュークルドリーミー"},
+    {zh:"野猫乐园 / 野貓樂園", ja:"ノラネコランド"},
+    {zh:"座敷猪 / 座敷豬", ja:"ザシキブタ"},
+    {zh:"碧玺红玫瑰 / 碧璽紅玫瑰", ja:"アドローザトルマリィ"},
+    {zh:"糖果小步舞曲", ja:"シュガーメヌエット"},
+    {zh:"新鲜重击 / 新鮮重擊", ja:"フレッシュパンチ"},
+    {zh:"敏特小鹿", ja:"ハミングミント"},
+    {zh:"Calibadix", ja:"カリバディクス"},
+    {zh:"柏饼狗 / 柏餅狗", ja:"かしわんこもち"},
+    {zh:"ぽこぽん日記", ja:"ぽこぽん日記"},
+    {zh:"Puwawa", ja:"プワワ"},
+    {zh:"迷路迷路乐园 / 迷路迷路樂園", ja:"まいまいまいごえん"},
+    {zh:"熊猫面包", ja:"ぱんくんち"},
+    {zh:"歌舞双星 / 歌舞雙星", ja:"ザ ボードビルデュオ"},
+    {zh:"节拍猫 / 節拍貓", ja:"ビートキャッツ"},
+    {zh:"熊米伦 / 熊米倫", ja:"クマミレン"},
+    {zh:"跑车小队 / 跑車小隊", ja:"ザ ラナバウツ"},
+    {zh:"梅屋杂货店 / 梅屋雜貨店", ja:"ウメ屋雑貨店"},
+    {zh:"魔法Pita Pito", ja:"リルリルフェアリル"},
+    {zh:"福太郎药局 / 福太郎藥局", ja:"くすりの福太郎"},
+    {zh:"手心小熊", ja:"てのりくま"},
+    {zh:"眨眼小粉", ja:"ウィンキーピンキー"},
+    {zh:"樱桃切里内 / 櫻桃切里內", ja:"チェリーナチェリーネ"},
+    {zh:"露露学园 / 露露學園", ja:"るるる学園"},
+    {zh:"舒缓旋律 / 舒緩旋律", ja:"メローチューン"},
+    {zh:"我们是恐龙！ / 我們是恐龍！", ja:"ウィアーダイナソアーズ！"},
+    {zh:"兔兔与马蒂 / 兔兔與馬蒂", ja:"バニー＆マッティ"},
+    {zh:"风之子 / 風之子", ja:"タイニーポエム"},
+    {zh:"洗衣桶小浣熊", ja:"たらいぐまのらんどりー"},
+    {zh:"团子与笔尖 / 糰子與筆尖", ja:"ニョッキ＆ペンネ"},
+    {zh:"深海族", ja:"シンカイゾク"},
+    {zh:"金鱼堂本铺 / 金魚堂本舖", ja:"きんぎょ堂本舗"},
+    {zh:"熊猫苹果 / 熊貓蘋果", ja:"パンダップル"},
+    {zh:"栗鼠露", ja:"リスル"},
+    {zh:"心动可爱朋友 / 心動可愛朋友", ja:"ドキドキヤミーチャムズ"},
+    {zh:"甜蜜古龙 / 甜蜜古龍", ja:"スウィートコロン"},
+    {zh:"胖娜皮塔", ja:"パンナピッタ"},
+    {zh:"运动小熊 / 運動小熊", ja:"スポーティングベアーズ"},
   ]},
   { id:"pokemon", title:"キャラ：ポケモン（宝可梦）", group:"character", groupLabel:"ポケモン", desc:"", items:[
     {zh:"皮卡丘", ja:"ピカチュウ"},
@@ -492,6 +575,15 @@ const DATA = [
     {zh:"伊布", ja:"イーヴイ"},
   ]},
   { id:"disney", title:"キャラ：ディズニー（迪士尼）", group:"character", groupLabel:"ディズニー", desc:"ディズニーランドは 迪士尼乐园", items:[
+    {zh:"迪士尼", ja:"ディズニー"},
+    {zh:"米奇和他的朋友们 / 米奇和他的朋友們", ja:"ミッキー＆フレンズ"},
+    {zh:"达菲友你", ja:"ダッフィーフレンズ"},
+    {zh:"迪士尼公主", ja:"ディズニープリンセス"},
+    {zh:"反派", ja:"ヴィランズ"},
+    {zh:"蒂姆 / 提姆", ja:"ティム・バートン"},
+    {zh:"皮克斯", ja:"ピクサー"},
+    {zh:"星球大战 / 星球大戰", ja:"スター・ウォーズ"},
+    {zh:"复仇者联盟 / 復仇者聯盟", ja:"アベンジャーズ"},
     {zh:"达菲 / 達菲", ja:"ダッフィー"},
     {zh:"雪莉玫", ja:"シェリーメイ"},
     {zh:"杰拉多尼 / 傑拉多尼", ja:"ジェラトーニ"},
@@ -512,12 +604,87 @@ const DATA = [
     {zh:"草莓熊", ja:"ロッツォ"},
     {zh:"艾莎", ja:"エルサ"},
     {zh:"安娜", ja:"アナ"},
-    {zh:"玛丽 / 瑪麗", ja:"マリー"},
     {zh:"尼克·王尔德 / 尼克·王爾德", ja:"ニック・ワイルド"},
     {zh:"朱迪·霍普斯", ja:"ジュディ・ホップス"},
     {zh:"杰克（南瓜王） / 傑克（南瓜王）", ja:"ナイトメアビフォアクリスマスのジャック"},
     {zh:"杰克·斯派罗 / 傑克·斯派羅", ja:"ジャック・スパロウ"},
-    {zh:"反派", ja:"ヴィランズ"},
+    {zh:"玛勒斐森特 / 瑪勒斐森特", ja:"マレフィセント"},
+    {zh:"乌苏拉 / 烏蘇拉", ja:"アースラ"},
+    {zh:"邪恶女王 / 邪惡女王", ja:"白雪姫の女王"},
+    {zh:"红心女王 / 紅心女王", ja:"ハートの女王"},
+    {zh:"库伊拉 / 庫伊拉", ja:"クルエラ"},
+    {zh:"玛丽 / 瑪麗", ja:"マリー"},
+    {zh:"乌奇·布奇 / 烏奇·布奇", ja:"ウギー・ブギー"},
+    {zh:"加斯顿 / 加斯頓", ja:"ガストン"},
+    {zh:"贾方 / 賈方", ja:"ジャファー"},
+    {zh:"哈迪斯", ja:"ハデス"},
+    {zh:"特曼因夫人", ja:"トレメイン夫人"},
+    {zh:"葛朵妈妈 / 葛朵媽媽", ja:"マザー・ゴーテル"},
+    {zh:"虎克船长 / 虎克船長", ja:"キャプテン・フック"},
+    {zh:"霍桑博士", ja:"ドクター・ファシリエ"},
+    {zh:"刀疤", ja:"スカー"},
+    {zh:"爱丽丝梦游仙境 / 愛麗絲夢遊仙境", ja:"ふしぎの国のアリス"},
+    {zh:"玛丽猫 / 瑪麗貓", ja:"おしゃれキャット"},
+    {zh:"星际宝贝 / 星際寶貝", ja:"リロ＆スティッチ"},
+    {zh:"木偶奇遇记 / 木偶奇遇記", ja:"ピノキオ"},
+    {zh:"小飞象 / 小飛象", ja:"ダンボ"},
+    {zh:"小鹿斑比", ja:"バンビ"},
+    {zh:"小飞侠 / 小飛俠", ja:"ピーター・パン"},
+    {zh:"灰姑娘", ja:"シンデレラ"},
+    {zh:"白雪公主", ja:"白雪姫"},
+    {zh:"睡美人", ja:"眠れる森の美女"},
+    {zh:"小美人鱼 / 小美人魚", ja:"リトル・マーメイド"},
+    {zh:"美女与野兽 / 美女與野獸", ja:"美女と野獣"},
+    {zh:"阿拉丁", ja:"アラジン"},
+    {zh:"长发公主 / 長髮公主", ja:"塔の上のラプンツェル"},
+    {zh:"冰雪奇缘 / 冰雪奇緣", ja:"アナと雪の女王"},
+    {zh:"小公主苏菲亚 / 小公主蘇菲亞", ja:"ちいさなプリンセス ソフィア"},
+    {zh:"蒂姆·伯顿的圣诞夜惊魂 / 提姆·波頓的聖誕夜驚魂", ja:"ナイトメアー・ビフォア・クリスマス"},
+    {zh:"疯狂动物城 / 動物方城市", ja:"ズートピア"},
+    {zh:"狮子王 / 獅子王", ja:"ライオン・キング"},
+    {zh:"超能陆战队 / 超能陸戰隊", ja:"ベイマックス（作品）"},
+    {zh:"扭曲仙境", ja:"ツイステ"},
+    {zh:"幸运兔奥斯华 / 幸運兔奧斯華", ja:"オズワルド・ザ・ラッキー・ラビット"},
+    {zh:"101忠狗", ja:"101匹わんちゃん"},
+    {zh:"小姐与流氓 / 小姐與流氓", ja:"わんわん物語"},
+    {zh:"公主和青蛙 / 公主與青蛙", ja:"プリンセスと魔法のキス"},
+    {zh:"花木兰 / 花木蘭", ja:"ムーラン"},
+    {zh:"大力士", ja:"ヘラクレス"},
+    {zh:"欢乐满人间 / 歡樂滿人間", ja:"メリー・ポピンズ"},
+    {zh:"风中奇缘 / 風中奇緣", ja:"ポカホンタス"},
+    {zh:"星裔后代 / 星裔後代", ja:"ディセンダント"},
+    {zh:"王国之心 / 王國之心", ja:"キングダム ハーツ"},
+    {zh:"无敌破坏王 / 無敵破壞王", ja:"シュガー・ラッシュ"},
+    {zh:"钟楼怪人 / 鐘樓怪人", ja:"ノートルダムの鐘"},
+    {zh:"飞哥与小佛 / 飛哥與小佛", ja:"フィニアスとファーブ"},
+    {zh:"寻龙传说 / 尋龍使者：拉雅", ja:"ラーヤと龍の王国"},
+    {zh:"海洋奇缘 / 海洋奇緣", ja:"モアナと伝説の海"},
+    {zh:"魔法满屋 / 魔法滿屋", ja:"ミラベルと魔法だらけの家"},
+    {zh:"nuiMOs (布偶) / nuiMOs (玩偶)", ja:"ぬいもーず"},
+    {zh:"园区主题元素 / 園區主題元素", ja:"パークモチーフ"},
+    {zh:"威利号汽船 / 威利號汽船", ja:"蒸気船ウィリー"},
+    {zh:"布偶历险记 / 布偶歷險記", ja:"ザ・マペッツ"},
+    {zh:"星愿 / 星願", ja:"ウィッシュ"},
+    {zh:"超级小猫咪 / 超級小貓咪", ja:"スーパーキティ"},
+    {zh:"皮克斯", ja:"ピクサー"},
+    {zh:"玩具总动员 / 玩具總動員", ja:"トイ・ストーリー"},
+    {zh:"赛车总动员 / 汽車總動員", ja:"カーズ"},
+    {zh:"怪兽电力公司 / 怪獸電力公司", ja:"モンスターズ・インク"},
+    {zh:"海底总动员2（多莉去哪儿） / 海底總動員2：多莉去哪兒", ja:"ファインディング・ドリー"},
+    {zh:"超人总动员 / 超人特攻隊", ja:"Mr.インクレディブル"},
+    {zh:"食神小当家（料理鼠王） / 料理鼠王", ja:"レミーのおいしいレストラン"},
+    {zh:"机器人总动员 / 瓦力", ja:"ウォーリー"},
+    {zh:"飞屋环游记 / 天外奇蹟", ja:"カールじいさんの空飛ぶ家"},
+    {zh:"勇敢传说 / 勇敢傳說", ja:"メリダとおそろしの森"},
+    {zh:"头脑特工队 / 腦筋急轉彎", ja:"インサイド・ヘッド"},
+    {zh:"寻梦环游记 / 可可夜總會", ja:"リメンバー・ミー"},
+    {zh:"二分之一的魔法 / ½的魔法", ja:"2分の1の魔法"},
+    {zh:"心灵奇旅 / 靈魂急轉彎", ja:"ソウルフル・ワールド"},
+    {zh:"青春变形记 / 熊抱青春記", ja:"私ときどきレッサーパンダ"},
+    {zh:"我变成海狸的那一天 / 我變成海狸的那一天", ja:"私がビーバーになる時"},
+    {zh:"曼达洛人 / 曼達洛人", ja:"マンダロリアン"},
+    {zh:"星球大战：幻境 / 星球大戰：視界", ja:"スター・ウォーズ：ビジョンズ"},
+    {zh:"漫威", ja:"マーベル"},
   ]},
   { id:"hp", title:"キャラ：ハリーポッター（哈利·波特）", group:"character", groupLabel:"ハリーポッター", desc:"", items:[
     {zh:"哈利·波特", ja:"ハリー・ポッター"},
@@ -864,7 +1031,7 @@ const DATA = [
 const GROUPS = [
   { id:"character", label:"🧸 キャラで探す", catIds:["ckw","sanrio","pokemon","disney","hp","iv","conan","ensemble","genshin"] },
   { id:"brand", label:"🏬 コラボ先ブランドで探す", catIds:["brand-goods","brand-food","brand-cvs","brand-coffee","brand-tea","brand-drink","brand-sweets","brand-fashion","brand-cafe"] },
-  { id:"basic", label:"📖 基本ワード・用途で探す", catIds:["basic","store","reserve","new","verb","season","goods","region","community"] },
+  { id:"basic", label:"📖 基本ワード・用途で探す", catIds:["basic","store","reserve","new","verb","season","entertainment","goods","region","community"] },
 ];
 
 // ---- 簡体字 / 繁体字の表記切り替え ----
@@ -976,36 +1143,31 @@ const comboSearchBtn = document.getElementById("comboSearchBtn");
 const comboClearBtn = document.getElementById("comboClearBtn");
 
 const COLLAPSIBLE_CATEGORIES = new Set(["region","ckw","sanrio","pokemon","disney","hp","iv","conan","ensemble","genshin"]);
+const CATEGORY_SHOW_LIMIT = { disney: 16, sanrio: 20 }; // 未指定のカテゴリは10件
 const expandedCategories = {};
-let comboItems = [];
+let comboItems = []; // "カテゴリID\u0001zh" の複合キーで管理する（同じ表記が別カテゴリにあっても混線しないように）
+function comboKey(catId, zh){ return catId + "\u0001" + zh; }
+function comboKeyZh(key){ return key.slice(key.indexOf("\u0001") + 1); }
 let currentQuery = "";      // フリーテキスト検索
-let currentCatFilter = null; // カテゴリ絞り込み（カテゴリIDまたは "group:xxx"）
+let currentCatFilters = []; // カテゴリ絞り込み（複数選択可・カテゴリIDの配列）
 let forceShowAll = false; // 「すべて表示」ボタンで全カテゴリ・全キーワードを表示する
-let currentCatLabel = "";
 
 // ==== 複合キーワードビルダー（下部の🧩バー ＋ 上部の検索欄と連動） ====
 function syncFilterInputWithCombo(){
   // 複合キーワードの中身を、上部の検索欄に「表示」はするが、
   // これを絞り込み用のクエリとしては使わない（同じカテゴリの他候補も見せたいため）
   // 表示は毎回その時点の簡体字/繁体字トグルに合わせて計算する
-  filterInput.value = comboItems.map(zh=> firstZh(zh)).join(" ");
+  filterInput.value = comboItems.map(key=> firstZh(comboKeyZh(key))).join(" ");
   forceShowAll = false;
-  // 手動でカテゴリ絞り込み中だった場合は解除する
-  if(currentCatFilter){
-    currentCatFilter = null;
-    currentCatLabel = "";
-    activeFilterChip.classList.remove("show");
-    document.querySelectorAll(".subcat-list button.active").forEach(b=> b.classList.remove("active"));
-  }
 }
-function addToCombo(zh){
-  // 表記トグルに関わらず一致させたいので、元の(簡体字 / 繁体字)文字列そのものを保持する
-  if(!comboItems.includes(zh)) comboItems.push(zh);
+function addToCombo(catId, zh){
+  const key = comboKey(catId, zh);
+  if(!comboItems.includes(key)) comboItems.push(key);
   syncFilterInputWithCombo();
   renderAll();
 }
-function removeFromCombo(zh){
-  comboItems = comboItems.filter(x=> x!==zh);
+function removeFromCombo(key){
+  comboItems = comboItems.filter(x=> x!==key);
   syncFilterInputWithCombo();
   renderAll();
 }
@@ -1017,8 +1179,8 @@ function clearCombo(){
 function renderCombo(){
   comboBar.classList.toggle("show", comboItems.length > 0);
   comboList.innerHTML = "";
-  comboItems.forEach(zh=>{
-    const word = firstZh(zh);
+  comboItems.forEach(key=>{
+    const word = firstZh(comboKeyZh(key));
     const pill = document.createElement("span");
     pill.className = "combo-pill";
     const label = document.createElement("span");
@@ -1026,16 +1188,16 @@ function renderCombo(){
     pill.appendChild(label);
     const x = document.createElement("button");
     x.textContent = "×";
-    x.addEventListener("click", ()=> removeFromCombo(zh));
+    x.addEventListener("click", ()=> removeFromCombo(key));
     pill.appendChild(x);
     comboList.appendChild(pill);
   });
-  comboPreview.textContent = comboItems.length ? comboItems.map(zh=> firstZh(zh)).join("") : "—";
+  comboPreview.textContent = comboItems.length ? comboItems.map(key=> firstZh(comboKeyZh(key))).join("") : "—";
   document.querySelectorAll(".chip").forEach(chip=>{
-    chip.classList.toggle("in-combo", comboItems.includes(chip.dataset.zhOriginal || ""));
+    chip.classList.toggle("in-combo", comboItems.includes(chip.dataset.comboKey || ""));
   });
 }
-comboSearchBtn.addEventListener("click", ()=>{ if(comboItems.length) openSearch(comboItems.map(zh=> firstZh(zh)).join("")); });
+comboSearchBtn.addEventListener("click", ()=>{ if(comboItems.length) openSearch(comboItems.map(key=> firstZh(comboKeyZh(key))).join("")); });
 comboClearBtn.addEventListener("click", clearCombo);
 
 // ==== カテゴリ一覧 ====
@@ -1047,7 +1209,10 @@ function createChip(item, catId){
   chip.dataset.zh = item.zh.toLowerCase();
   chip.dataset.ja = (item.ja||"").toLowerCase();
   chip.dataset.zhOriginal = item.zh;
-  if(comboItems.includes(item.zh)) chip.classList.add("in-combo");
+  const key = comboKey(catId, item.zh);
+  chip.dataset.comboKey = key;
+  const isSelected = comboItems.includes(key);
+  if(isSelected) chip.classList.add("in-combo");
 
   const zhDisplay = firstZh(item.zh) + (item.reading ? "（" + item.reading + "）" : "");
   if(item.ja){
@@ -1081,13 +1246,15 @@ function createChip(item, catId){
   const actions = document.createElement("div");
   actions.className = "chip-actions";
   const addBtn = document.createElement("button");
-  addBtn.className = "add-btn"; addBtn.textContent = "➕"; addBtn.title = "複合キーワードに追加";
+  addBtn.className = "add-btn";
+  addBtn.textContent = isSelected ? "－" : "➕";
+  addBtn.title = isSelected ? "複合キーワードから外す" : "複合キーワードに追加";
   addBtn.addEventListener("click", (e)=>{
     e.stopPropagation();
-    if(comboItems.includes(item.zh)){
-      removeFromCombo(item.zh);
+    if(comboItems.includes(key)){
+      removeFromCombo(key);
     } else {
-      addToCombo(item.zh);
+      addToCombo(catId, item.zh);
     }
   });
   actions.appendChild(addBtn);
@@ -1116,7 +1283,7 @@ function renderAll(){
 
   // カテゴリも選ばれておらず、検索語も入力されていない初期状態では、
   // 下の一覧は何も表示せず、案内メッセージだけを出す（縦幅を節約するため）
-  if(!currentCatFilter && tokens.length === 0 && comboItems.length === 0 && !forceShowAll){
+  if(currentCatFilters.length === 0 && tokens.length === 0 && comboItems.length === 0 && !forceShowAll){
     noResult.style.display = "block";
     noResult.textContent = "📂 上のカテゴリから選ぶか、キーワードを検索してください";
     countBadge.textContent = "";
@@ -1125,25 +1292,20 @@ function renderAll(){
   }
   noResult.textContent = "該当するキーワードが見つかりません";
 
-  // 選択中のカテゴリがあれば、それを先頭に並べ替える（他のカテゴリも引き続きすべて表示する）
+  // 選択中のカテゴリがあれば、それらを先頭に並べ替える（他のカテゴリも引き続きすべて表示する）
   let categories = getAllCategories();
-  if(currentCatFilter){
+  if(currentCatFilters.length > 0){
     const priority = [];
     const rest = [];
     categories.forEach(cat=>{
-      const isPriority = currentCatFilter.startsWith("group:")
-        ? cat.group === currentCatFilter.slice(6)
-        : cat.id === currentCatFilter;
-      (isPriority ? priority : rest).push(cat);
+      (currentCatFilters.includes(cat.id) ? priority : rest).push(cat);
     });
     categories = [...priority, ...rest];
   }
 
   categories.forEach(cat=>{
-    const isPriorityCat = currentCatFilter && (
-      currentCatFilter.startsWith("group:") ? cat.group === currentCatFilter.slice(6) : cat.id === currentCatFilter
-    );
-    const hasComboItem = cat.items.some(it=> comboItems.includes(it.zh));
+    const isPriorityCat = currentCatFilters.includes(cat.id);
+    const hasComboItem = cat.items.some(it=> comboItems.includes(comboKey(cat.id, it.zh)));
 
     let matched;
     if(tokens.length > 0){
@@ -1161,8 +1323,8 @@ function renderAll(){
     // ➕で選んだ項目（複合キーワードに入っているもの）を、同じカテゴリ内の先頭に並べ替える
     // それ以外の項目は元の順序のまま、その後ろに続けて全て表示する
     matched = [...matched].sort((a, b)=>{
-      const aSel = comboItems.includes(a.zh);
-      const bSel = comboItems.includes(b.zh);
+      const aSel = comboItems.includes(comboKey(cat.id, a.zh));
+      const bSel = comboItems.includes(comboKey(cat.id, b.zh));
       if(aSel === bSel) return 0;
       return aSel ? -1 : 1;
     });
@@ -1184,8 +1346,8 @@ function renderAll(){
     const chipsWrap = document.createElement("div");
     chipsWrap.className = "chips";
 
-    const isCollapsible = COLLAPSIBLE_CATEGORIES.has(cat.id) && tokens.length === 0 && !currentCatFilter && !hasComboItem && !forceShowAll;
-    const showLimit = 10;
+    const isCollapsible = COLLAPSIBLE_CATEGORIES.has(cat.id) && tokens.length === 0 && !hasComboItem && !forceShowAll;
+    const showLimit = CATEGORY_SHOW_LIMIT[cat.id] || 10;
     const isExpanded = expandedCategories[cat.id] || false;
     const itemsToShow = (isCollapsible && !isExpanded) ? matched.slice(0, showLimit) : matched;
 
@@ -1231,10 +1393,10 @@ function buildGroupNav(){
       if(!cat) return;
       const subBtn = document.createElement("button");
       subBtn.textContent = cat.groupLabel || cat.title;
+      if(currentCatFilters.includes(catId)) subBtn.classList.add("active");
       subBtn.addEventListener("click", ()=>{
-        selectCategoryFilter(catId, cat.groupLabel || cat.title);
-        [...subList.children].forEach(b=> b.classList.remove("active"));
-        subBtn.classList.add("active");
+        toggleCategoryFilter(catId);
+        subBtn.classList.toggle("active", currentCatFilters.includes(catId));
       });
       subList.appendChild(subBtn);
     });
@@ -1249,23 +1411,38 @@ function buildGroupNav(){
   });
 }
 
-// カテゴリ選択 → 検索欄に表示 ＋ 一覧を絞り込み
-function selectCategoryFilter(catId, label){
-  currentCatFilter = catId;
-  currentCatLabel = label;
-  forceShowAll = false;
-  filterInput.value = "";
-  currentQuery = "";
-  activeFilterLabel.textContent = "📂 " + label + " を先頭に表示中（他も表示されています）";
+function updateActiveFilterDisplay(){
+  if(currentCatFilters.length === 0){
+    activeFilterChip.classList.remove("show");
+    return;
+  }
+  const labels = currentCatFilters.map(id=>{
+    const cat = DATA.find(c=> c.id === id);
+    return cat ? (cat.groupLabel || cat.title) : id;
+  });
+  activeFilterLabel.textContent = "📂 " + labels.join("、") + " を先頭に表示中（他も表示されています）";
   activeFilterChip.classList.add("show");
+}
+
+// カテゴリ選択 → 選択のたびに追加/解除するトグル式（複数選択可）
+function toggleCategoryFilter(catId){
+  const idx = currentCatFilters.indexOf(catId);
+  if(idx >= 0){
+    currentCatFilters.splice(idx, 1);
+  } else {
+    currentCatFilters.push(catId);
+    forceShowAll = false;
+  }
+  updateActiveFilterDisplay();
   renderAll();
-  document.querySelector(".nav-box").scrollIntoView({behavior:"smooth", block:"start"});
+  if(currentCatFilters.length > 0){
+    document.querySelector(".nav-box").scrollIntoView({behavior:"smooth", block:"start"});
+  }
 }
 
 function clearCategoryFilter(){
-  currentCatFilter = null;
-  currentCatLabel = "";
-  activeFilterChip.classList.remove("show");
+  currentCatFilters = [];
+  updateActiveFilterDisplay();
   document.querySelectorAll(".subcat-list button.active").forEach(b=> b.classList.remove("active"));
   renderAll();
 }
@@ -1278,7 +1455,7 @@ filterInput.addEventListener("input", ()=>{
   forceShowAll = false;
   if(currentQuery.trim()){
     // テキスト入力があればカテゴリ絞り込みは解除して自由検索を優先
-    if(currentCatFilter) clearCategoryFilter();
+    if(currentCatFilters.length > 0) clearCategoryFilter();
   }
   renderAll();
 });
@@ -1330,7 +1507,7 @@ function renderQuickTags(){
 document.getElementById("topSearchBtn").addEventListener("click", ()=>{
   // 複合キーワードが積まれている場合はそれを結合した語で検索する（スペースなしで連結）
   if(comboItems.length){
-    openSearch(comboItems.map(zh=> firstZh(zh)).join(""));
+    openSearch(comboItems.map(key=> firstZh(comboKeyZh(key))).join(""));
     return;
   }
   const q = filterInput.value.trim();
@@ -1350,7 +1527,7 @@ document.getElementById("topResetBtn").addEventListener("click", ()=>{
 document.getElementById("topCopyBtn").addEventListener("click", ()=>{
   // 複合キーワードがあればそれを連結した語を、なければ検索欄の内容をコピーする
   const text = comboItems.length
-    ? comboItems.map(zh=> firstZh(zh)).join("")
+    ? comboItems.map(key=> firstZh(comboKeyZh(key))).join("")
     : filterInput.value.trim().replace(/\s+/g, "");
   if(!text){
     showToast("コピーしたいキーワードを入力してください");
@@ -1404,7 +1581,7 @@ document.querySelectorAll(".variant-btn").forEach(btn=>{
     updatePlaceholder();
     if(comboItems.length){
       // 選択済みの複合キーワードがある場合は、検索欄の表示も新しい表記に更新する
-      filterInput.value = comboItems.map(zh=> firstZh(zh)).join(" ");
+      filterInput.value = comboItems.map(key=> firstZh(comboKeyZh(key))).join(" ");
     }
     renderAll();
   });
